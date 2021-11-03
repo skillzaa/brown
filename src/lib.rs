@@ -2,39 +2,61 @@ use std::fs;
 use std::fs::{File,DirEntry};
 use std::path::Path;
 use std::io::Write;
-
+use std::io::{Error, ErrorKind};
 pub trait Brown {
-  fn create_file(&self,file_name:&str)->File{
+  fn create_file(&self,file_name:&str)->Result<File,Error>{
     // let file_name = "test_doc.txt";
-    let my_file = File::create(file_name).expect("creation failed");
-    my_file
-  } 
-  fn delete_file(&self,file_name:&str)->bool{
+    let my_file = File::create(file_name);
+      match my_file {
+        Ok(f) => return Ok(f),
+        Err(e) => return Err(e),
+      }
+   } 
+  fn delete_file(&self,file_name:&str)->Result<bool,Error>{
     let path = std::path::Path::new(file_name);
-    let my_file  = fs::remove_file(&path);
-    true
+    // let path_exists = path.exists();
+    match path.exists() {
+      false => {
+        let error = Error::new(ErrorKind::NotFound, "the path could not be found");
+        return Err(error);
+        },
+      true => {
+        let result  = fs::remove_file(&path);
+        match result {
+          // Ok(result) => return Ok(result),
+          Ok(()) => return Ok(true),
+          Err(e) => return Err(e),
+
+        }
+      }  
+    }
   } 
-  fn create_dir(&self,dir_name:&str)->std::io::Result<()> {
-    let path = String::from("./") + &dir_name;
-  
-    let d = fs::create_dir(path)?;
-    Ok(d)
+  fn create_dir(&self,dir_name:&str)->Result<bool,Error> {
+    let complete = String::from("./") + &dir_name;
+    let path = std::path::Path::new(&complete);
+    let d = fs::create_dir(path);
+    match d {
+      Ok(()) => return Ok(true),
+      Err(e) => Err(e),
+    }
   }
-  fn create_dir_all(&self,dir_name:String)->std::io::Result<()> {
-    //prepend the ./
-    let path = String::from("./") + &dir_name;
-    println!("path {}",path);
-    let d = fs::create_dir_all(path)?;
-    Ok(d)
+  fn create_dir_all(&self,dir_name:String)->Result<bool,Error> {
+    let full_path = String::from("./") + &dir_name;
+    let path = std::path::Path::new(&full_path);
+    let d = fs::create_dir_all(path);
+    match d {
+      Ok(()) => return Ok(true),
+      Err(e) => return Err(e),
+    }
   } 
-  fn read_dir (&self,dir_name:&str)->Vec<DirEntry>{
+  fn read_dir (&self,dir_name:&str)->Result<Vec<DirEntry>,Error>{
     let mut v:Vec<DirEntry> = Vec::new();
     for entry in fs::read_dir(dir_name).unwrap() {
       let entry = entry.unwrap();
       // let path = entry.path();  
               v.push(entry);
     }
-    v
+    Ok(v)
   }
   fn get_dir_from_dir (&self,dir_name:&str)->Vec<DirEntry>{
     let mut v:Vec<DirEntry> = Vec::new();

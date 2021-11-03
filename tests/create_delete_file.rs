@@ -1,4 +1,5 @@
 use brown::Brown;
+use std::io::{Error, ErrorKind};
 
 #[derive(Debug)]
 
@@ -28,6 +29,13 @@ let a = Abc::new();
     let b  = a.path_exists("./tests/foo.txt");
     assert_eq!(true,b);
     a.delete_file("./tests/foo.txt");
+
     let d  = a.path_exists("./tests/foo.txt");
     assert_eq!(false,d);
+}
+#[test]
+fn c() {
+let a = Abc::new();
+    let del_result = a.delete_file("./not_exist.txt");
+    assert!(del_result.is_err());
 }
