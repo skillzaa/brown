@@ -1,6 +1,5 @@
 use std::fs;
 use std::fs::{File,DirEntry};
-//use comrak::{markdown_to_html, ComrakOptions};
 use std::path::Path;
 use std::io::Write;
 
@@ -9,6 +8,11 @@ pub trait Brown {
     // let file_name = "test_doc.txt";
     let my_file = File::create(file_name).expect("creation failed");
     my_file
+  } 
+  fn delete_file(&self,file_name:&str)->bool{
+    let path = std::path::Path::new(file_name);
+    let my_file  = fs::remove_file(&path);
+    true
   } 
   fn create_dir(&self,dir_name:&str)->std::io::Result<()> {
     let path = String::from("./") + &dir_name;
