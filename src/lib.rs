@@ -52,20 +52,14 @@ pub trait Brown {
     d
   } 
   fn read_dir (&self,dir_name:&str)->Result<ReadDir,Error>{
-    let mut v:Vec<DirEntry> = Vec::new();
     let dir_entry = fs::read_dir(dir_name).expect("failed to read directory");
-    dir_entry
+    Ok(dir_entry)
   }
   fn get_dir_from_dir (&self,dir_name:&str)->Vec<DirEntry>{
     let  all = self.read_dir(dir_name).unwrap();
-    let mut v = Vec::new();
-        for entry in fs::read_dir(dir_name).unwrap() {
-          let entry = entry.unwrap();
-          let path = entry.path();
-                if path.is_dir(){
-                  v.push(entry);
-                }
-        }
+    let v = 
+    all.map(|x|x.unwrap())
+    .filter(|x| (&x.path()).is_dir()).collect();
     v
   }
   fn get_files_from_dir (&self,dir_name:&str)->Vec<DirEntry>{
