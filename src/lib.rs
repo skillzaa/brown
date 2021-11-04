@@ -1,20 +1,15 @@
-use std::fs;
+use std::{fs};
 use std::fs::{File,DirEntry};
-use std::path::Path;
+use std::path::{Path};
 use std::io::Write;
 use std::io::{Error, ErrorKind};
 pub trait Brown {
   fn create_file(&self,file_name:&str)->Result<File,Error>{
-    // let file_name = "test_doc.txt";
     let my_file = File::create(file_name);
-      match my_file {
-        Ok(f) => return Ok(f),
-        Err(e) => return Err(e),
-      }
+      my_file
    } 
   fn delete_file(&self,file_name:&str)->Result<bool,Error>{
     let path = std::path::Path::new(file_name);
-    // let path_exists = path.exists();
     match path.exists() {
       false => {
         let error = Error::new(ErrorKind::NotFound, "the path could not be found");
@@ -23,10 +18,8 @@ pub trait Brown {
       true => {
         let result  = fs::remove_file(&path);
         match result {
-          // Ok(result) => return Ok(result),
           Ok(()) => return Ok(true),
           Err(e) => return Err(e),
-
         }
       }  
     }
@@ -48,12 +41,29 @@ pub trait Brown {
       Ok(()) => return Ok(true),
       Err(e) => return Err(e),
     }
+  }
+  fn remove_dir(&self,dir_name:&str)->Result<bool,Error> {
+    let complete = String::from("./") + &dir_name;
+    let path = std::path::Path::new(&complete);
+    let d = fs::remove_dir(path);
+    match d {
+      Ok(()) => return Ok(true),
+      Err(e) => Err(e),
+    }
+  }
+  fn remove_dir_all(&self,dir_name:&str)->Result<bool,Error> {
+    let complete = String::from("./") + &dir_name;
+    let path = std::path::Path::new(&complete);
+    let d = fs::remove_dir_all(path);
+    match d {
+      Ok(()) => return Ok(true),
+      Err(e) => Err(e),
+    }
   } 
   fn read_dir (&self,dir_name:&str)->Result<Vec<DirEntry>,Error>{
     let mut v:Vec<DirEntry> = Vec::new();
     for entry in fs::read_dir(dir_name).unwrap() {
       let entry = entry.unwrap();
-      // let path = entry.path();  
               v.push(entry);
     }
     Ok(v)
@@ -93,28 +103,27 @@ pub trait Brown {
     }
     Some(true)
 }
-
   fn write_to_file(&self,file_name:&str,content:&str) -> std::io::Result<()> {
   let mut f = std::fs::OpenOptions::new().write(true).open(file_name)?;
   f.write(content.as_bytes())?;
-  
   f.flush()?;
   Ok(())
   }
-  fn get_files_by_ext (&self,dir_name:&str,ext:&str)->Vec<DirEntry>{
+  fn get_files_by_ext (&self,dir_name:&str,ext:&str)
+  ->Result<Vec<DirEntry>,Error>{
+    let all_files = fs::read_dir(dir_name).expect("failed to open dorectory");
     let mut v:Vec<DirEntry> = Vec::new();
-        for entry in fs::read_dir(dir_name).unwrap() {
-          let entry = entry.unwrap();
-          let path = entry.path();
-                if path.is_file(){
-                  let e = path.extension().unwrap();
-                  let e_str = e.to_str().unwrap();
-                  if e_str == ext                    {
-                    v.push(entry)
+    for entry in all_files {
+        let entry = entry.expect("failed to open directory entry");
+          let path_buf = entry.path();
+            let buf_option = path_buf.extension().unwrap().to_str();
+              let buf_ext = buf_option.unwrap();
+                  if buf_ext == ext{
+                        v.push(entry);
                   }
-                }
-        }
-    v
+
+    }
+    Ok(v)
   }
   fn path_exists(&self, value:&str)->bool{
     let path = std::path::Path::new(value);
