@@ -14,28 +14,28 @@ impl Brown for Abc {}
 
 #[cfg(test)]
 #[test]
-fn a() {
+fn create_dir_test() {
 let a = Abc::new();
     let foo = a.create_dir("./tests/abc").unwrap();
     let a  = a.path_exists("./tests/abc");
     assert_eq!(true,a);
     
-//let r = a.allow_alphabets_only(&String::from("abcdews"));
 }
 #[test]
-fn b() {
+#[should_panic]
+fn remove_dir_test() {
 let a = Abc::new();
     a.create_dir("./tests/xyz");
     let b  = a.path_exists("./tests/xyz");
     assert_eq!(true,b);
-    a.delete_dir("./tests/abc");
+    a.remove_dir("./tests/abc");
 
-    let d  = a.path_exists("./tests/abc");
+    let d  = a.path_exists("./tests/xyz");
     assert_eq!(false,d);
 }
-// #[test]
-// fn c() {
-// let a = Abc::new();
-//     let del_result = a.delete_file("./not_exist.txt");
-//     assert!(del_result.is_err());
-// }
+#[test]
+fn dir_not_present() {
+let a = Abc::new();
+    let del_result = a.remove_dir("./notexist");
+    assert!(del_result.is_err());
+}

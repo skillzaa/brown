@@ -33,51 +33,49 @@ pub trait Brown {
       Err(e) => Err(e),
     }
   }
-  fn create_dir_all(&self,dir_name:String)->Result<bool,Error> {
+  fn create_dir_all(&self,dir_name:String)->Result<(),Error> {
     let full_path = String::from("./") + &dir_name;
     let path = std::path::Path::new(&full_path);
     let d = fs::create_dir_all(path);
-    match d {
-      Ok(()) => return Ok(true),
-      Err(e) => return Err(e),
-    }
+    d
   }
-  fn remove_dir(&self,dir_name:&str)->Result<bool,Error> {
+  fn remove_dir(&self,dir_name:&str)->Result<(),Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);
     let d = fs::remove_dir(path);
-    match d {
-      Ok(()) => return Ok(true),
-      Err(e) => Err(e),
-    }
+    d
   }
-  fn remove_dir_all(&self,dir_name:&str)->Result<bool,Error> {
+  fn remove_dir_all(&self,dir_name:&str)->Result<(),Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);
     let d = fs::remove_dir_all(path);
-    match d {
-      Ok(()) => return Ok(true),
-      Err(e) => Err(e),
-    }
+    d
   } 
   fn read_dir (&self,dir_name:&str)->Result<Vec<DirEntry>,Error>{
     let mut v:Vec<DirEntry> = Vec::new();
-    for entry in fs::read_dir(dir_name).unwrap() {
+    let dir_entry = fs::read_dir(dir_name).expect("failed to read directory");
+    for entry in dir_entry {
       let entry = entry.unwrap();
               v.push(entry);
     }
     Ok(v)
   }
   fn get_dir_from_dir (&self,dir_name:&str)->Vec<DirEntry>{
-    let mut v:Vec<DirEntry> = Vec::new();
-        for entry in fs::read_dir(dir_name).unwrap() {
-          let entry = entry.unwrap();
-          let path = entry.path();
-                if path.is_dir(){
-                  v.push(entry);
-                }
-        }
-    v
+    let mut v:Vec<DirEntry> = self.read_dir(dir_name).unwrap();
+      let v_iter = v.iter();
+  
+      for val in v_iter {
+          println!("Got: {:?}", val);
+      }  
+    //     for entry in fs::read_dir(dir_name).unwrap() {
+    //       let entry = entry.unwrap();
+    //       let path = entry.path();
+    //             if path.is_dir(){
+    //               v.push(entry);
+    //             }
+    //     }
+    // v
+    todo!();
   }
   fn get_files_from_dir (&self,dir_name:&str)->Vec<DirEntry>{
     let mut v:Vec<DirEntry> = Vec::new();
