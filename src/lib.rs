@@ -1,5 +1,5 @@
 use std::{fs};
-use std::fs::{File,DirEntry};
+use std::fs::{DirEntry, File, ReadDir};
 use std::path::{Path};
 use std::io::Write;
 use std::io::{Error, ErrorKind};
@@ -51,31 +51,22 @@ pub trait Brown {
     let d = fs::remove_dir_all(path);
     d
   } 
-  fn read_dir (&self,dir_name:&str)->Result<Vec<DirEntry>,Error>{
+  fn read_dir (&self,dir_name:&str)->Result<ReadDir,Error>{
     let mut v:Vec<DirEntry> = Vec::new();
     let dir_entry = fs::read_dir(dir_name).expect("failed to read directory");
-    for entry in dir_entry {
-      let entry = entry.unwrap();
-              v.push(entry);
-    }
-    Ok(v)
+    dir_entry
   }
   fn get_dir_from_dir (&self,dir_name:&str)->Vec<DirEntry>{
-    let mut v:Vec<DirEntry> = self.read_dir(dir_name).unwrap();
-      let v_iter = v.iter();
-  
-      for val in v_iter {
-          println!("Got: {:?}", val);
-      }  
-    //     for entry in fs::read_dir(dir_name).unwrap() {
-    //       let entry = entry.unwrap();
-    //       let path = entry.path();
-    //             if path.is_dir(){
-    //               v.push(entry);
-    //             }
-    //     }
-    // v
-    todo!();
+    let  all = self.read_dir(dir_name).unwrap();
+    let mut v = Vec::new();
+        for entry in fs::read_dir(dir_name).unwrap() {
+          let entry = entry.unwrap();
+          let path = entry.path();
+                if path.is_dir(){
+                  v.push(entry);
+                }
+        }
+    v
   }
   fn get_files_from_dir (&self,dir_name:&str)->Vec<DirEntry>{
     let mut v:Vec<DirEntry> = Vec::new();
