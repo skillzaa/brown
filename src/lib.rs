@@ -3,7 +3,7 @@ use std::fs::{DirEntry, File, ReadDir};
 use std::path::{Path};
 use std::io::Write;
 use std::io::{Error, ErrorKind};
-pub trait Brown {
+  pub trait Brown {
   fn create_file(&self,file_name:&str)->Result<File,Error>{
     let my_file = File::create(file_name);
       my_file

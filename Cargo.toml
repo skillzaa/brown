@@ -13,10 +13,4 @@ license = "MIT OR Apache-2.0"
 readme = "README.md"
 doctest = true
 
-[lib]
-name = "brown"
-test = false
-bench = false
-
-
 [dependencies]
