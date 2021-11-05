@@ -117,7 +117,7 @@ pub trait Brown {
  
 pub struct Bro { }
 impl Bro {
-    fn new()->Bro{
+    pub fn new()->Bro{
         Bro {}
     }
 }
