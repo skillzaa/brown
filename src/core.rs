@@ -22,27 +22,14 @@ use std::io::{Error, ErrorKind};
       }  
     }
   } 
-  pub fn create_dir(dir_name:&str)->Result<bool,Error> {
-    let complete = String::from("./") + &dir_name;
-    let path = std::path::Path::new(&complete);
-    let d = fs::create_dir(path);
-    match d {
-      Ok(()) => return Ok(true),
-      Err(e) => Err(e),
-    }
-  }
+  
   pub fn create_dir_all(dir_name:String)->Result<(),Error> {
     let full_path = String::from("./") + &dir_name;
     let path = std::path::Path::new(&full_path);
     let d = fs::create_dir_all(path);
     d
   }
-  pub fn remove_dir(dir_name:&str)->Result<(),Error> {
-    let complete = String::from("./") + &dir_name;
-    let path = std::path::Path::new(&complete);
-    let d = fs::remove_dir(path);
-    d
-  }
+  
   pub fn remove_dir_all(dir_name:&str)->Result<(),Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);

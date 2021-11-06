@@ -1,7 +1,7 @@
 use std::fs;
 use std::fs::{ReadDir,DirEntry};
 use std::io::{Error,ErrorKind};
-mod core;
+// mod core;
 #[derive(Debug)]
 pub struct Hdir {
   dir_name:String,  
@@ -9,26 +9,9 @@ pub struct Hdir {
 
 impl Hdir{
     pub fn new(dir_name:String)->Hdir{
+        let dir_name = "./".to_string() + dir_name.as_str();
         Hdir{
             dir_name,
-        }
-    }
-    fn get_read_dir(&self)->Result<ReadDir,Error>{
-        let read_dir = fs::read_dir(&self.dir_name);
-        match read_dir {
-            Ok(read_dir_ok)=>{
-                return Ok(read_dir_ok);
-            },
-            Err(e)=>{
-                let e = Error::new(ErrorKind::NotFound, "failed to read the directory, it may not exist or the path may be wrong");
-                return Err(e);
-            },
-        }
-    }
-    fn unwrap_direntry(&self,direntry:Result<DirEntry,Error>)->Result<DirEntry,Error>{
-        match direntry {
-          Ok(direntry_final)=>{return Ok(direntry_final)},
-          Err(e) => return Err(e),
         }
     }
     pub fn get_entries(&self)->Result<Vec<DirEntry>,Error>{
@@ -68,7 +51,7 @@ impl Hdir{
             return Ok(vec);
         }
     }
-    pub fn get_dir(&self)->Result<Vec<DirEntry>,Error>{
+    pub fn get_dirs(&self)->Result<Vec<DirEntry>,Error>{
         let mut vec:Vec<DirEntry> = Vec::new() ;
         let entries  = self.get_entries()?;
         for entry in entries {
@@ -87,13 +70,54 @@ impl Hdir{
             return Ok(vec);
         }
     }
-/////////////////////////////////////////    
+    /// This is a wrapper function around rust fs::create_dir as per
+    /// docs this is safe. It means that if the folder exists it will
+    /// not be recreated.
+    pub fn create(&self)->Result<bool,Error>{
+        let path = std::path::Path::new(&self.dir_name);
+        let d = fs::create_dir(path);
+            match d {
+                Ok(()) => return Ok(true),
+                Err(e) => Err(e),
+            }
+    }    
+    pub fn delete(&self)->Result<bool,Error>{
+        let path = std::path::Path::new(&self.dir_name);
+        let d = fs::remove_dir(path);
+        match d {
+            Ok(()) => return Ok(true),
+            Err(e) => Err(e),
+        }
+    }    
+    fn get_read_dir(&self)->Result<ReadDir,Error>{
+        let read_dir = fs::read_dir(&self.dir_name);
+        match read_dir {
+            Ok(read_dir_ok)=>{
+                return Ok(read_dir_ok);
+            },
+            Err(e)=>{
+                let e = Error::new(ErrorKind::NotFound, "failed to read the directory, it may not exist or the path may be wrong");
+                return Err(e);
+            },
+        }
+    }
+        // fn unwrap_direntry(&self,direntry:Result<DirEntry,Error>)->Result<DirEntry,Error>{
+        // match direntry {
+        //   Ok(direntry_final)=>{return Ok(direntry_final)},
+        //   Err(e) => return Err(e),
+        // }
+        //}
+    /////////////////////////////////////////    
 /////////////////////////////////////////    
 /////////////////////////////////////////    
 /////////////////////////////////////////    
 }////impl ends
 
-
+fn path_exists( value:&str)->bool{
+    let path = std::path::Path::new(value);
+    let tf = path.exists();
+    tf
+  }
 fn get_ext(entry:&DirEntry)->Result<String,Error>{
     let path_buf = entry.path();
     let ext = path_buf.extension();
