@@ -1,5 +1,5 @@
 use std::fs;
-use std::fs::{ReadDir,DirEntry};
+use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
 // mod core;
 #[derive(Debug)]
@@ -69,6 +69,45 @@ impl Hdir{
         }else {
             return Ok(vec);
         }
+    }
+    /// This function will create a file inside The main folder 
+    /// or any of its subfolders.
+    /// You need to give a complete file path : i.e file path + file
+    /// name + extention. However you do not need to add "./" before
+    /// the path.
+    /// Example:let x = hdir.create_file("first/second/file_name.md");
+    /// #An important observation::
+    /// Even if you create a Hdir struct for a sub-folder of your
+    /// current directory. The create_file (and also delete_file)
+    /// is capable of creating files upwards in the current 
+    /// directory.  
+    /// So a Hdir object (even if created for a sub-folder) can
+    /// create files upto the folder in which the app is being 
+    /// executes (the current folder).
+    pub fn create_file(&self,file_path:&str)->Result<File,Error>{
+        let path_exist = path_exists(file_path);
+            match path_exist {
+                true=>{
+                    let e = Error::new(ErrorKind::AlreadyExists,"file already exists");
+                    return Err(e);
+                } ,
+                false=> {
+                    let res = File::create(file_path);
+                    return res; // no need to Ok() it    
+                },
+            }
+       } 
+    /// The delete_file method (just like create_file) are global in
+    /// nature such that even if the Hdir object is created for a 
+    /// sub-folder it can delete files in the current folder    
+    pub fn delete_file(&self,file_path:&str)->Result<bool,Error>{
+        let path = std::path::Path::new(file_path);
+            let result  = fs::remove_file(&path);
+            match result {
+              Ok(()) => return Ok(true),
+              Err(e) => return Err(e),
+            }
+            
     }
     /// This is a wrapper function around rust fs::create_dir as per
     /// docs this is safe. It means that if the folder exists it will

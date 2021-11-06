@@ -1,0 +1,65 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'brown'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=brown"
+                ],
+                "filter": {
+                    "name": "brown",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'create_delete_files'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=create_delete_files",
+                    "--package=brown"
+                ],
+                "filter": {
+                    "name": "create_delete_files",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'create_delete_dir'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=create_delete_dir",
+                    "--package=brown"
+                ],
+                "filter": {
+                    "name": "create_delete_dir",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

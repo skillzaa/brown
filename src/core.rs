@@ -2,26 +2,7 @@ use std::{fs};
 use std::fs::{DirEntry, File, ReadDir};
 use std::io::{Error, ErrorKind};
 
-  pub fn create_file(file_name:&str)->Result<File,Error>{
-    let my_file = File::create(file_name);
-      my_file
-   } 
-  pub fn delete_file(file_name:&str)->Result<bool,Error>{
-    let path = std::path::Path::new(file_name);
-    match path.exists() {
-      false => {
-        let error = Error::new(ErrorKind::NotFound, "the path could not be found");
-        return Err(error);
-        },
-      true => {
-        let result  = fs::remove_file(&path);
-        match result {
-          Ok(()) => return Ok(true),
-          Err(e) => return Err(e),
-        }
-      }  
-    }
-  } 
+   
   
   pub fn create_dir_all(dir_name:String)->Result<(),Error> {
     let full_path = String::from("./") + &dir_name;

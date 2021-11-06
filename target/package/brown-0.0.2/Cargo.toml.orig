@@ -1,0 +1,16 @@
+[package]
+name = "brown"
+version = "0.0.2"
+edition = "2021"
+authors = ["bilal <skillzaa.com@gmail.com>"]
+description = "Rust Task Runner"
+
+repository = "https://github.com/skillzaa/brown.git"
+
+homepage = "https://github.com/skillzaa/brown.git"
+
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+doctest = true
+
+[dependencies]
