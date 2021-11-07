@@ -13,7 +13,7 @@ fn create_delete_files() {
     let rr = hdir.create_file("tests/bac.html");
     assert!(rr.is_err()); // its error cant make same file twice
     // clean up
-    //let del = hdir.delete_file("tests/bac.html");
-    //assert!(!del.is_err());
+    let del = hdir.delete_file("tests/bac.html");
+    assert!(!del.is_err());
 
 }

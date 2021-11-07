@@ -4,14 +4,28 @@ use std::io::{Error,ErrorKind};
 // mod core;
 #[derive(Debug)]
 pub struct Hdir {
-  dir_name:String,  
+  current_dir:String,  
 }
 
 impl Hdir{
-    pub fn new(dir_name:String)->Hdir{
-        let dir_name = "./".to_string() + dir_name.as_str();
-        Hdir{
-            dir_name,
+    pub fn new()->Result<Hdir,Error>{
+        let c_d = std::env::current_dir();
+        match c_d {
+            Ok(c_d_ok)=>{
+            let  current_dir= c_d_ok.as_path().to_str().map(|s| s.to_string());
+                match current_dir {
+                    Some(c)=>{
+                        return Ok( Hdir{
+                            current_dir:c,
+                        });
+                    },
+                    None=>{
+                        let e = Error::new(ErrorKind::NotFound,"the current working directory could not be assertained");
+                        Err(e)
+                    },        
+                }
+            },
+            Err(e)=> {return Err(e)},
         }
     }
     pub fn get_entries(&self)->Result<Vec<DirEntry>,Error>{
@@ -112,24 +126,35 @@ impl Hdir{
     /// This is a wrapper function around rust fs::create_dir as per
     /// docs this is safe. It means that if the folder exists it will
     /// not be recreated.
-    pub fn create(&self)->Result<bool,Error>{
-        let path = std::path::Path::new(&self.dir_name);
+    pub fn create_dir(dir_name:&str)->Result<bool,Error> {
+        let complete = String::from("./") + &dir_name;
+        let path = std::path::Path::new(&complete);
         let d = fs::create_dir(path);
-            match d {
-                Ok(()) => return Ok(true),
-                Err(e) => Err(e),
-            }
-    }    
-    pub fn delete(&self)->Result<bool,Error>{
-        let path = std::path::Path::new(&self.dir_name);
-        let d = fs::remove_dir(path);
         match d {
-            Ok(()) => return Ok(true),
-            Err(e) => Err(e),
+          Ok(()) => return Ok(true),
+          Err(e) => Err(e),
         }
-    }    
-    fn get_read_dir(&self)->Result<ReadDir,Error>{
-        let read_dir = fs::read_dir(&self.dir_name);
+      }
+    pub fn create_dir_all(dir_name:String)->Result<(),Error> {
+        let full_path = String::from("./") + &dir_name;
+        let path = std::path::Path::new(&full_path);
+        let d = fs::create_dir_all(path);
+    d
+    }
+    pub fn remove_dir(dir_name:&str)->Result<(),Error> {
+        let complete = String::from("./") + &dir_name;
+        let path = std::path::Path::new(&complete);
+        let d = fs::remove_dir(path);
+    d
+    }
+    pub fn remove_dir_all(dir_name:&str)->Result<(),Error> {
+        let complete = String::from("./") + &dir_name;
+        let path = std::path::Path::new(&complete);
+        let d = fs::remove_dir_all(path);
+    d
+    }  
+    fn get_read_dir(&self,dir_path:&str)->Result<ReadDir,Error>{
+        let read_dir = fs::read_dir(dir_path);
         match read_dir {
             Ok(read_dir_ok)=>{
                 return Ok(read_dir_ok);
@@ -139,14 +164,8 @@ impl Hdir{
                 return Err(e);
             },
         }
-    }
-        // fn unwrap_direntry(&self,direntry:Result<DirEntry,Error>)->Result<DirEntry,Error>{
-        // match direntry {
-        //   Ok(direntry_final)=>{return Ok(direntry_final)},
-        //   Err(e) => return Err(e),
-        // }
-        //}
-    /////////////////////////////////////////    
+    }    
+/////////////////////////////////////////    
 /////////////////////////////////////////    
 /////////////////////////////////////////    
 /////////////////////////////////////////    
