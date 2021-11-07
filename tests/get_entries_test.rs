@@ -13,9 +13,9 @@ fn get_entries_test() {
     let a = hdir.create_dir("tests/xxx/a");
     assert!(!a.is_err());
     let b = hdir.create_dir("tests/xxx/b");
-    assert!(!a.is_err());
+    assert!(!b.is_err());
     let c = hdir.create_dir("tests/xxx/c");
-    assert!(!a.is_err());
+    assert!(!c.is_err());
     ///////////-- add a file
     let d = hdir.create_file("tests/xxx/file_name.ext");
     assert!(!d.is_err());
