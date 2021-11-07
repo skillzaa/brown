@@ -1,7 +1,7 @@
 use std::fs;
 use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
-// mod core;
+
 #[derive(Debug)]
 pub struct Hdir {
   current_dir:String,  

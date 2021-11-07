@@ -1,9 +1,9 @@
 [package]
 name = "brown"
-version = "0.0.4"
+version = "0.0.5"
 edition = "2021"
 authors = ["bilal <skillzaa.com@gmail.com>"]
-description = "Rust Task Runner"
+description = "A simple library that makes dealing with Rust file system a breeze"
 
 repository = "https://github.com/skillzaa/brown.git"
 
