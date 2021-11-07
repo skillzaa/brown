@@ -39,7 +39,7 @@ impl Hdir{
                 Ok(ent)=>{
                     dir_entry_vec.push(ent);
                 },
-                Err(e)=> continue,
+                Err(_e)=> continue,
             }
         }
      if dir_entry_vec.len() <= 0 {
@@ -63,6 +63,25 @@ impl Hdir{
         }
         if vec.len() <= 0 {
             let e = Error::new(ErrorKind::NotFound,"found no files in the directory");
+            return Err(e);
+        }else {
+            return Ok(vec);
+        }
+    }
+    pub fn get_files_by_ext(&self,dir_path:&str,ext:&str)->Result<Vec<DirEntry>,Error>{
+        let mut vec:Vec<DirEntry> = Vec::new() ;
+        let files  = self.get_files(dir_path)?;
+        for file in files {
+            let file_ext = get_ext(&file)?;
+                if file_ext == ext {
+                        vec.push(file);
+                }else {
+                    continue;
+                }
+            
+        }
+        if vec.len() <= 0 {
+            let e = Error::new(ErrorKind::NotFound,"found no files with the given extention");
             return Err(e);
         }else {
             return Ok(vec);
@@ -159,7 +178,7 @@ impl Hdir{
             Ok(read_dir_ok)=>{
                 return Ok(read_dir_ok);
             },
-            Err(e)=>{
+            Err(_e)=>{
                 let e = Error::new(ErrorKind::NotFound, "failed to read the directory, it may not exist or the path may be wrong");
                 return Err(e);
             },
