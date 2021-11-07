@@ -28,9 +28,12 @@ impl Hdir{
             Err(e)=> {return Err(e)},
         }
     }
-    pub fn get_entries(&self)->Result<Vec<DirEntry>,Error>{
+    /// get_entries will get all the entries from a directory may it
+    /// be files , folders or others.
+    /// If there is no entry in the said direcotry i.e there is no file or folder etc in the it, in that case it will also return an error. This will save the user from checking every time the returned vec if it has entries or not. 
+    pub fn get_entries(&self,dir_path:&str)->Result<Vec<DirEntry>,Error>{
         let mut dir_entry_vec:Vec<DirEntry> = Vec::new();
-        let read_dir = self.get_read_dir()?;
+        let read_dir = self.get_read_dir(dir_path)?;
         for entry in read_dir {
             match entry {
                 Ok(ent)=>{
@@ -40,15 +43,15 @@ impl Hdir{
             }
         }
      if dir_entry_vec.len() <= 0 {
-         let e = Error::new(ErrorKind::NotFound,"found no valid entry in the directory");
+         let e = Error::new(ErrorKind::NotFound,"found no valid entries in the directory");
          return Err(e);
      }else {
          return Ok(dir_entry_vec);
      } 
     }
-    pub fn get_files(&self)->Result<Vec<DirEntry>,Error>{
+    pub fn get_files(&self,dir_path:&str)->Result<Vec<DirEntry>,Error>{
         let mut vec:Vec<DirEntry> = Vec::new() ;
-        let entries  = self.get_entries()?;
+        let entries  = self.get_entries(dir_path)?;
         for entry in entries {
             let is_file = is_file(&entry);
             match is_file {
@@ -65,9 +68,9 @@ impl Hdir{
             return Ok(vec);
         }
     }
-    pub fn get_dirs(&self)->Result<Vec<DirEntry>,Error>{
+    pub fn get_dirs(&self,dir_path:&str)->Result<Vec<DirEntry>,Error>{
         let mut vec:Vec<DirEntry> = Vec::new() ;
-        let entries  = self.get_entries()?;
+        let entries  = self.get_entries(dir_path)?;
         for entry in entries {
             let is_dir = is_dir(&entry);
             match is_dir {
@@ -84,20 +87,18 @@ impl Hdir{
             return Ok(vec);
         }
     }
-    /// This function will create a file inside The main folder 
-    /// or any of its subfolders.
+    /// This function will create a file at given path as long 
+    /// as the path is below its running folder.
     /// You need to give a complete file path : i.e file path + file
-    /// name + extention. However you do not need to add "./" before
-    /// the path.
+    /// name + extention. 
+    /// However you do not need to add "./" before the path, 
+    /// that will be added automatically.
+    /// ---
     /// Example:let x = hdir.create_file("first/second/file_name.md");
-    /// #An important observation::
-    /// Even if you create a Hdir struct for a sub-folder of your
-    /// current directory. The create_file (and also delete_file)
-    /// is capable of creating files upwards in the current 
-    /// directory.  
-    /// So a Hdir object (even if created for a sub-folder) can
-    /// create files upto the folder in which the app is being 
-    /// executes (the current folder).
+    /// ---
+    /// The create_file (and also remove_file) is capable of 
+    /// creating files anywhere in the current working folder and 
+    /// its subfolders.
     pub fn create_file(&self,file_path:&str)->Result<File,Error>{
         let path_exist = path_exists(file_path);
             match path_exist {
@@ -111,22 +112,21 @@ impl Hdir{
                 },
             }
        } 
-    /// The delete_file method (just like create_file) are global in
+    /// The remove_file method (just like create_file) are global in
     /// nature such that even if the Hdir object is created for a 
     /// sub-folder it can delete files in the current folder    
-    pub fn delete_file(&self,file_path:&str)->Result<bool,Error>{
+    pub fn remove_file(&self,file_path:&str)->Result<bool,Error>{
         let path = std::path::Path::new(file_path);
             let result  = fs::remove_file(&path);
             match result {
               Ok(()) => return Ok(true),
               Err(e) => return Err(e),
-            }
-            
+            }        
     }
     /// This is a wrapper function around rust fs::create_dir as per
     /// docs this is safe. It means that if the folder exists it will
     /// not be recreated.
-    pub fn create_dir(dir_name:&str)->Result<bool,Error> {
+    pub fn create_dir(&self, dir_name:&str)->Result<bool,Error> {
         let complete = String::from("./") + &dir_name;
         let path = std::path::Path::new(&complete);
         let d = fs::create_dir(path);
@@ -135,24 +135,24 @@ impl Hdir{
           Err(e) => Err(e),
         }
       }
-    pub fn create_dir_all(dir_name:String)->Result<(),Error> {
-        let full_path = String::from("./") + &dir_name;
-        let path = std::path::Path::new(&full_path);
-        let d = fs::create_dir_all(path);
-    d
-    }
-    pub fn remove_dir(dir_name:&str)->Result<(),Error> {
+    // pub fn create_dir_all(dir_name:String)->Result<(),Error> {
+    //     let full_path = String::from("./") + &dir_name;
+    //     let path = std::path::Path::new(&full_path);
+    //     let d = fs::create_dir_all(path);
+    // d
+    // }
+    pub fn remove_dir(&self, dir_name:&str)->Result<(),Error> {
         let complete = String::from("./") + &dir_name;
         let path = std::path::Path::new(&complete);
         let d = fs::remove_dir(path);
     d
     }
-    pub fn remove_dir_all(dir_name:&str)->Result<(),Error> {
-        let complete = String::from("./") + &dir_name;
-        let path = std::path::Path::new(&complete);
-        let d = fs::remove_dir_all(path);
-    d
-    }  
+    // pub fn remove_dir_all(dir_name:&str)->Result<(),Error> {
+    //     let complete = String::from("./") + &dir_name;
+    //     let path = std::path::Path::new(&complete);
+    //     let d = fs::remove_dir_all(path);
+    // d
+    // }  
     fn get_read_dir(&self,dir_path:&str)->Result<ReadDir,Error>{
         let read_dir = fs::read_dir(dir_path);
         match read_dir {
