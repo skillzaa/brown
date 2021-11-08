@@ -1,6 +1,7 @@
 use std::fs;
 use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
+use std::path::Path;
 
 #[derive(Debug)]
 pub struct Hdir {
@@ -179,23 +180,16 @@ impl Hdir{
           Err(e) => Err(e),
         }
       }
-    // pub fn create_dir_all(dir_name:String)->Result<(),Error> {
-    //     let full_path = String::from("./") + &dir_name;
-    //     let path = std::path::Path::new(&full_path);
-    //     let d = fs::create_dir_all(path);
-    // d
-    // }
     pub fn remove_dir(&self, dir_name:&str)->Result<(),Error> {
         let complete = String::from("./") + &dir_name;
         let path = std::path::Path::new(&complete);
         let d = fs::remove_dir(path);
     d
     }
-    // pub fn remove_dir_all(dir_name:&str)->Result<(),Error> {
-    //     let complete = String::from("./") + &dir_name;
-    //     let path = std::path::Path::new(&complete);
-    //     let d = fs::remove_dir_all(path);
-    // d
+    // pub fn get_file_name(&self,path:&Path)->String{
+    //     let file_name = path.file_name().unwrap();
+    //     let file_name_str = file_name.to_str().map(|s| s.to_string()).unwrap();
+    //     file_name_str
     // }  
     /// The get_read_dir will return "ReadDir" struct from Rust which
     /// is a iterator over the directory as per the path  
@@ -223,8 +217,8 @@ fn path_exists( value:&str)->bool{
     let path = std::path::Path::new(value);
     let tf = path.exists();
     tf
-  }
-fn get_ext(entry:&DirEntry)->Result<String,Error>{
+ }
+pub fn get_ext(entry:&DirEntry)->Result<String,Error>{
     let path_buf = entry.path();
     let ext = path_buf.extension();
     match ext {
@@ -246,7 +240,7 @@ fn get_ext(entry:&DirEntry)->Result<String,Error>{
         },
     }
 }
-fn is_file(entry:&DirEntry)->Result<bool,Error>{
+pub fn is_file(entry:&DirEntry)->Result<bool,Error>{
     let file_type = entry.file_type();
     match file_type {
         Ok(ft)=>{
@@ -255,7 +249,7 @@ fn is_file(entry:&DirEntry)->Result<bool,Error>{
         Err(e)=> return Err(e),
     }
 }
-fn is_dir(entry:&DirEntry)->Result<bool,Error>{
+pub fn is_dir(entry:&DirEntry)->Result<bool,Error>{
     let file_type = entry.file_type();
     match file_type {
         Ok(ft)=>{
