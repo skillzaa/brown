@@ -1,7 +1,8 @@
+use std::ffi::OsStr;
 use std::fs;
 use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
-
+use std::path::Path;
     
 /// get_entries will get all the entries from a directory may it
 /// be files , folders or others.
@@ -126,18 +127,11 @@ pub fn create_file_safe(file_path:&str)->Result<File,Error>{
             },
         }
     } 
+/// The create_file function is not safe. It means that it will
+/// create a new file even if the old one exists. If this is not
+/// what you want you should try create_file_safe.
 pub fn create_file(file_path:&str)->Result<File,Error>{
-    let path_exist = path_exists(file_path);
-        match path_exist {
-            true=>{
-                let e = Error::new(ErrorKind::AlreadyExists,"file already exists");
-                return Err(e);
-            } ,
-            false=> {
-                let res = File::create(file_path);
-                return res; // no need to Ok() it    
-            },
-        }
+    File::create(file_path)
     } 
 /// The remove_file method (just like create_file) are global in
 /// nature such that it can delete files anywhere in the 
@@ -150,11 +144,6 @@ pub fn remove_file(file_path:&str)->Result<bool,Error>{
             Err(e) => return Err(e),
         }        
 }
-/// This is a wrapper function around rust fs::create_dir as per
-/// docs this is safe. It means that if the folder exists it will
-/// not be recreated.
-/// Keep in mind that though out this library the "./" is 
-/// added automatically 
 pub fn create_dir( dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);
@@ -164,29 +153,60 @@ pub fn create_dir( dir_name:&str)->Result<bool,Error> {
         Err(e) => Err(e),
     }
     }
+/// This is a wrapper function around rust fs::create_dir as per
+/// docs this is safe. It means that if the folder exists it will
+/// not be recreated.
+/// Keep in mind that though out this library the "./" is 
+/// added automatically 
 pub fn create_dir_safe( dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);
-    let d = fs::create_dir(path);
-    match d {
-        Ok(()) => return Ok(true),
-        Err(e) => Err(e),
-    }
-    }
+    //.................................................
+        match path.exists() {
+            true=>{
+                let e = Error::new(ErrorKind::AlreadyExists,"file already exists");
+                return Err(e);
+            } ,
+            false=> {
+                let d = fs::create_dir(path);
+                match d {
+                    Ok(()) => return Ok(true), // just changed 
+                    Err(e) => Err(e),
+                }
+            },
+        }
+}
 pub fn remove_dir( dir_name:&str)->Result<(),Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);
     let d = fs::remove_dir(path);
 d
 }
-// pub fn get_file_name(path:&Path)->String{
-//     let file_name = path.file_name().unwrap();
-//     let file_name_str = file_name.to_str().map(|s| s.to_string()).unwrap();
-//     file_name_str
-// }  
+/// The get_file_name takes a DirEntry and return its file name 
+/// with out the extentions.
+pub fn get_file_name(dir_entry:&DirEntry)->Result<String,Error>{
+    let e = Error::new(ErrorKind::NotFound, "could not extract file name (stem)");
+    let path = dir_entry.path();
+        match path.file_stem() {
+            Some(file_stem_osstr)=>{
+                let file_name_opt = file_stem_osstr.to_str().map(|s| s.to_string());
+                    match file_name_opt {
+                        Some(stem)=>{
+                            Ok(stem)
+                        },
+                        None=>{
+                            Err(e)
+                        },
+                    }
+            },
+            None=>{
+                Err(e)
+            },
+        }
+}  
 /// The get_read_dir will return "ReadDir" struct from Rust which
 /// is a iterator over the directory as per the path  
-fn get_read_dir(dir_path:&str)->Result<ReadDir,Error>{
+pub fn get_read_dir(dir_path:&str)->Result<ReadDir,Error>{
     let complete = String::from("./") + &dir_path;
     let path_com = std::path::Path::new(&complete);
     let read_dir = fs::read_dir(path_com);
@@ -200,11 +220,17 @@ fn get_read_dir(dir_path:&str)->Result<ReadDir,Error>{
         },
     }
 }    
-fn path_exists( value:&str)->bool{
+/// The Rust std::fs::DirEntry path object has "exists" however
+/// this function takes a &str and converts that into path 
+/// thus is useful when the DirEntry object has not been obtained.
+pub fn path_exists( value:&str)->bool{
     let path = std::path::Path::new(value);
     let tf = path.exists();
     tf
  }
+/// The get_ext function will take a DirEntry object and return the
+/// file extention. This saves us a lot of efforts and conversion
+/// between types. 
 pub fn get_ext(entry:&DirEntry)->Result<String,Error>{
     let path_buf = entry.path();
     let ext = path_buf.extension();
@@ -222,7 +248,7 @@ pub fn get_ext(entry:&DirEntry)->Result<String,Error>{
                     }
         },
         None=> {
-            let e = Error::new(ErrorKind::NotFound,"failed to get extention from file");
+            let e = Error::new(ErrorKind::NotFound,"failed to get extention");
             return Err(e);
         },
     }
@@ -236,6 +262,8 @@ pub fn is_file(entry:&DirEntry)->Result<bool,Error>{
         Err(e)=> return Err(e),
     }
 }
+/// We can directly get is_dir function using DirEntry. 
+/// This saves us digging down two levels.
 pub fn is_dir(entry:&DirEntry)->Result<bool,Error>{
     let file_type = entry.file_type();
     match file_type {
@@ -245,3 +273,4 @@ pub fn is_dir(entry:&DirEntry)->Result<bool,Error>{
         Err(e)=> return Err(e),
     }
 }
+
