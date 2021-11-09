@@ -5,18 +5,18 @@ use brown;
 fn get_entries_test() {
     let parent_path = "tests/xxx";
     // create parent folder
-    let parent = brown::create_dir_safe(parent_path);
+    let parent = brown::create_dir(parent_path);
     assert!(!parent.is_err());
     
     // now create 3 dir ie a  , b , c
-    let a = brown::create_dir_safe("tests/xxx/a");
+    let a = brown::create_dir("tests/xxx/a");
     assert!(!a.is_err());
-    let b = brown::create_dir_safe("tests/xxx/b");
+    let b = brown::create_dir("tests/xxx/b");
     assert!(!b.is_err());
-    let c = brown::create_dir_safe("tests/xxx/c");
+    let c = brown::create_dir("tests/xxx/c");
     assert!(!c.is_err());
     ///////////-- add a file
-    let d = brown::create_file_safe("tests/xxx/file_name.ext");
+    let d = brown::create_file("tests/xxx/file_name.ext");
     assert!(!d.is_err());
     let ulti = brown::get_entries(&parent_path).unwrap();
     assert_eq!(ulti.len(),4);

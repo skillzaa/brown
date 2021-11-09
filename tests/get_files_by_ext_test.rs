@@ -5,16 +5,16 @@ use brown;
 fn  get_files_by_ext_test() {
     let parent_path = "tests/cuw";
     // create parent folder
-    let parent = brown::create_dir_safe(parent_path);
+    let parent = brown::create_dir(parent_path);
     assert!(parent.is_ok());
     
     //-- add 4 file a n b have .md c is .html
     // Have 2 md files and 1 hmtl
-    let a = brown::create_file_safe("tests/cuw/file_nameA.md");
+    let a = brown::create_file("tests/cuw/file_nameA.md");
     assert!(a.is_ok());
-    let b = brown::create_file_safe("tests/cuw/file_nameB.md");
+    let b = brown::create_file("tests/cuw/file_nameB.md");
     assert!(b.is_ok());
-    let c = brown::create_file_safe("tests/cuw/file_nameC.html");
+    let c = brown::create_file("tests/cuw/file_nameC.html");
     assert!(c.is_ok());
     
     //-- this is get FILEs

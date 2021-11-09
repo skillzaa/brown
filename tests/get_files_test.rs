@@ -5,18 +5,18 @@ use brown;
 fn get_files_test() {
     let parent_path = "tests/kxt";
     // create parent folder
-    let parent = brown::create_dir_safe(parent_path);
+    let parent = brown::create_dir(parent_path);
     assert!(parent.is_ok());
     
     // now create 2 dir ie a  , b 
-    let a = brown::create_dir_safe("tests/kxt/a");
+    let a = brown::create_dir("tests/kxt/a");
     assert!(a.is_ok());
-    let b = brown::create_dir_safe("tests/kxt/b");
+    let b = brown::create_dir("tests/kxt/b");
     assert!(b.is_ok());
     ///////////-- add a file
-    let c = brown::create_file_safe("tests/kxt/file_name.ext");
+    let c = brown::create_file("tests/kxt/file_name.ext");
     assert!(c.is_ok());
-    let d = brown::create_file_safe("tests/kxt/file_name2.ext");
+    let d = brown::create_file("tests/kxt/file_name2.ext");
     assert!(d.is_ok());
     let ulti = brown::get_files(&parent_path).unwrap();
     assert_eq!(ulti.len(),2); // just c and d are files

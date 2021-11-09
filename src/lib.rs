@@ -1,8 +1,6 @@
-use std::ffi::OsStr;
 use std::fs;
 use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
-use std::path::Path;
     
 /// get_entries will get all the entries from a directory may it
 /// be files , folders or others.
@@ -110,11 +108,11 @@ pub fn get_dirs(dir_path:&str)->Result<Vec<DirEntry>,Error>{
 /// However you do not need to add "./" before the path, 
 /// that will be added automatically.
 /// ---
-/// Example:let x = hdir.create_file("first/second/file_name.md");
+/// Example:let x = hdir.create_file_brute("first/second/file_name.md");
 /// ---
 /// In case any folder in the given path is not found it will return error.
 /// In case the file aready exists it will return error and will not over write the file. Its operation is safe.
-pub fn create_file_safe(file_path:&str)->Result<File,Error>{
+pub fn create_file(file_path:&str)->Result<File,Error>{
     let path_exist = path_exists(file_path);
         match path_exist {
             true=>{
@@ -127,13 +125,13 @@ pub fn create_file_safe(file_path:&str)->Result<File,Error>{
             },
         }
     } 
-/// The create_file function is not safe. It means that it will
+/// The create_file_brute function is not safe. It means that it will
 /// create a new file even if the old one exists. If this is not
-/// what you want you should try create_file_safe.
-pub fn create_file(file_path:&str)->Result<File,Error>{
+/// what you want you should try create_file_brute_safe.
+pub fn create_file_brute(file_path:&str)->Result<File,Error>{
     File::create(file_path)
     } 
-/// The remove_file method (just like create_file) are global in
+/// The remove_file method (just like create_file_brute) are global in
 /// nature such that it can delete files anywhere in the 
 /// current folder    
 pub fn remove_file(file_path:&str)->Result<bool,Error>{
@@ -144,21 +142,21 @@ pub fn remove_file(file_path:&str)->Result<bool,Error>{
             Err(e) => return Err(e),
         }        
 }
-pub fn create_dir( dir_name:&str)->Result<bool,Error> {
-    let complete = String::from("./") + &dir_name;
-    let path = std::path::Path::new(&complete);
-    let d = fs::create_dir(path);
-    match d {
-        Ok(()) => return Ok(true),
-        Err(e) => Err(e),
-    }
-    }
+// pub fn create_dir( dir_name:&str)->Result<bool,Error> {
+//     let complete = String::from("./") + &dir_name;
+//     let path = std::path::Path::new(&complete);
+//     let d = fs::create_dir(path);
+//     match d {
+//         Ok(()) => return Ok(true),
+//         Err(e) => Err(e),
+//     }
+//     }
 /// This is a wrapper function around rust fs::create_dir as per
 /// docs this is safe. It means that if the folder exists it will
 /// not be recreated.
 /// Keep in mind that though out this library the "./" is 
 /// added automatically 
-pub fn create_dir_safe( dir_name:&str)->Result<bool,Error> {
+pub fn create_dir( dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);
     //.................................................
@@ -176,11 +174,31 @@ pub fn create_dir_safe( dir_name:&str)->Result<bool,Error> {
             },
         }
 }
-pub fn remove_dir( dir_name:&str)->Result<(),Error> {
+/// The remove_dir fn will remove a directory only of its empty.Its operation is safe. This fn should be used normally unless brute removal is required 
+pub fn remove_dir( dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);
-    let d = fs::remove_dir(path);
-d
+        match fs::remove_dir(path) {
+            Ok(_ok)=>{
+                Ok(true)
+            },
+            Err(e)=>{
+                Err(e)
+            },
+        }
+}
+/// The **remove_dir_brute** fn will delete a folder even if it has other files and folders. USE WITH CAUTION!!
+pub fn remove_dir_brute( dir_name:&str)->Result<bool,Error> {
+    let complete = String::from("./") + &dir_name;
+    let path = std::path::Path::new(&complete);
+        match fs::remove_dir_all(path) {
+            Ok(_ok)=>{
+                Ok(true)
+            },
+            Err(e)=>{
+                Err(e)
+            },
+        }
 }
 /// The get_file_name takes a DirEntry and return its file name 
 /// with out the extentions.
