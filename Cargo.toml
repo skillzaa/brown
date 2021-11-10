@@ -1,6 +1,6 @@
 [package]
 name = "brown"
-version = "0.0.6"
+version = "0.0.7"
 edition = "2021"
 authors = ["bilal <skillzaa.com@gmail.com>"]
 description = "A simple library that makes dealing with Rust file system a breeze"
@@ -14,4 +14,3 @@ readme = "README.md"
 doctest = true
 
 [dependencies]
-thiserror = "1.0"
