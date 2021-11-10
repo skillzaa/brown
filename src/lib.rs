@@ -102,16 +102,19 @@ pub fn get_dirs(dir_path:&str)->Result<Vec<DirEntry>,Error>{
     }
 }
 /// This function will create a file at given path as long 
-/// as the path is below its current working folder.
+/// as the file does not exist already. In case the file aready
+/// exists it will return an error and will not over write the file. 
+/// Its operation is safe.
 /// You need to give a complete file path : i.e file path + file
 /// name + extention. 
 /// However you do not need to add "./" before the path, 
 /// that will be added automatically.
 /// ---
-/// Example:let x = hdir.create_file_brute("first/second/file_name.md");
+///Example:let x = hdir.create_file("first/second/file_name.md");
 /// ---
-/// In case any folder in the given path is not found it will return error.
-/// In case the file aready exists it will return error and will not over write the file. Its operation is safe.
+/// In case any folder in the given path is not found it will
+/// return error.
+
 pub fn create_file(file_path:&str)->Result<File,Error>{
     let path_exist = path_exists(file_path);
         match path_exist {
@@ -127,13 +130,12 @@ pub fn create_file(file_path:&str)->Result<File,Error>{
     } 
 /// The create_file_brute function is not safe. It means that it will
 /// create a new file even if the old one exists. If this is not
-/// what you want you should try create_file_brute_safe.
+/// what you want you should try create_file.
 pub fn create_file_brute(file_path:&str)->Result<File,Error>{
     File::create(file_path)
     } 
-/// The remove_file method (just like create_file_brute) are global in
-/// nature such that it can delete files anywhere in the 
-/// current folder    
+/// The remove_file method can delete the file as per the given
+/// path.
 pub fn remove_file(file_path:&str)->Result<bool,Error>{
     let path = std::path::Path::new(file_path);
         let result  = fs::remove_file(&path);
@@ -142,20 +144,11 @@ pub fn remove_file(file_path:&str)->Result<bool,Error>{
             Err(e) => return Err(e),
         }        
 }
-// pub fn create_dir( dir_name:&str)->Result<bool,Error> {
-//     let complete = String::from("./") + &dir_name;
-//     let path = std::path::Path::new(&complete);
-//     let d = fs::create_dir(path);
-//     match d {
-//         Ok(()) => return Ok(true),
-//         Err(e) => Err(e),
-//     }
-//     }
-/// This is a wrapper function around rust fs::create_dir as per
-/// docs this is safe. It means that if the folder exists it will
-/// not be recreated.
-/// Keep in mind that though out this library the "./" is 
-/// added automatically 
+
+/// The creation of alibrary is always a safe operation i.e in case
+/// the folder already exist it will return an error.
+/// Keep in mind that thorugh out this library the you do not 
+/// need to add "./", it is added automatically 
 pub fn create_dir( dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);
@@ -174,7 +167,9 @@ pub fn create_dir( dir_name:&str)->Result<bool,Error> {
             },
         }
 }
-/// The remove_dir fn will remove a directory only of its empty.Its operation is safe. This fn should be used normally unless brute removal is required 
+/// The remove_dir funtion will remove a directory only of its empty.
+/// Its operation is safe. This fn should be used normally unless
+/// brute removal is required 
 pub fn remove_dir( dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = std::path::Path::new(&complete);
@@ -223,7 +218,7 @@ pub fn get_file_name(dir_entry:&DirEntry)->Result<String,Error>{
         }
 }  
 /// The get_read_dir will return "ReadDir" struct from Rust which
-/// is a iterator over the directory as per the path  
+/// is a iterator over the directory  
 pub fn get_read_dir(dir_path:&str)->Result<ReadDir,Error>{
     let complete = String::from("./") + &dir_path;
     let path_com = std::path::Path::new(&complete);
