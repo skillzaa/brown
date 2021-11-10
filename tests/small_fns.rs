@@ -23,4 +23,6 @@ fn get_dir_test() {
             let file_name = bro::get_file_name(&file);
             // println!("{:?}",file_name.unwrap());
         }
+
+buildup::tear_down();        
 }

@@ -24,5 +24,6 @@ fn get_dir_test() {
     //     _=>{},
     // }
     assert!(rem_dirs_opt.is_err()); //since have  no dirs so it returns error ifit find no dirs.
+    buildup::tear_down();        
 
 }
