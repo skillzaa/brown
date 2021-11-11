@@ -4,6 +4,9 @@ use qndr;
 
 pub fn run(parent_folder:&str,paths_list:Vec<&str>)
 ->Result<bool,Error>{
+
+let parent_path = format!("./{}/", &parent_folder);
+
 let mut nv:Vec<String> = Vec::new();
     for path in paths_list {
     //----sanitize
@@ -12,11 +15,9 @@ let mut nv:Vec<String> = Vec::new();
             continue;
         }
     
-        let mut a = String::from(parent_folder);
-        a.push_str(path);
-        nv.push(a);
+        let dir = format!("{}{}",parent_path,path);
+        nv.push(dir);
     }
-    let parent_path = format!("./{}/", &parent_folder);
     bro::create_dir(parent_path.as_str())?;
     create_structure(&nv)?;
 Ok(true)                    
@@ -40,7 +41,7 @@ fn bool_to_result(input:bool,message:&str)->Result<bool,Error>{
 fn create_structure(path_list:&Vec<String>)->Result<bool,Error>{
 
 for folder in path_list {
-    let result = bro::create_dir(folder);
+    let result = std::fs::create_dir_all(folder);
     match result {
         Ok(_f)=>{println!("folder created :: {}",folder)},
         Err(_e)=>{

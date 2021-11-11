@@ -1,6 +1,5 @@
 use brown;
 
-
 #[cfg(test)]
 #[test]
 fn use_fn(){
