@@ -8,9 +8,8 @@
  >**Brown** library exports helpful functions which gives you a very simple API for creating managin and manipulating files,folder etc in the current working folder.
 
  - It has zero dependencies.
- - **Expect daily updates and changes**
- ---
- **For API documentation please check https://docs.rs/brown/0.0.8/brown/**
+ - **Keep in mind that thorugh out this library the you do not need to add "./", it is added automatically**
+
  ---
  ## Example
 
@@ -53,11 +52,13 @@ pub fn main(){
 
 ```
 
- **Please note that there is no difference between a "folder" and "directory". The are both same.**
+ **Please note that there is no difference between a "folder" and "directory" in the documentation. The are both same.**
+ **Do not add the ./ anywhere in the paths, this will be added automatically. There are no relative paths used.**
 
 Incase you have any issues with the library, let me know here [https://github.com/skillzaa/brown/issues](https://github.com/skillzaa/brown/issues)
 **Please be in touch**
 My twitter handle is :: [rusthulk](https://twitter.com/rusthulk)
 
 ## Release Notes
+[version 0.0.9](./notes/0_0_9.md)
 [version 0.0.8](./notes/0_0_8.md)

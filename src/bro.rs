@@ -3,14 +3,12 @@ use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
 use std::path::Path;
 
-/// get_entries will get all the entries from a directory may it
-/// be files , folders or others.
-/// If there is no entry in the said direcotry i.e there is no 
-/// file or folder etc in it, in that case it will return
-/// an error. This will save the user from checking every time
-/// the returned vec if it has entries or not. 
-/// The dir_path should not have "./" and should not be 
-/// above the current working folder
+///The get_entries fn will get all the entries from a directory may it be files , folders or others. 
+///If there is no entry in the said direcotry i.e there is no file or folder etc, in that case it will return
+///an error. This will save the user from checking every time the returned vec if it has entries or not.
+///It returns a Vec of DirEntry when successful. The DirEntry is a Rust struct used for holding any entry in a directory. 
+///The dir_path should not have "./" since that will be added automatically.
+
 pub fn get_entries(dir_path:&str)->Result<Vec<DirEntry>,Error>{
     let mut dir_entry_vec:Vec<DirEntry> = Vec::new();
     let read_dir = get_read_dir(dir_path)?;
@@ -29,10 +27,8 @@ pub fn get_entries(dir_path:&str)->Result<Vec<DirEntry>,Error>{
         return Ok(dir_entry_vec);
     } 
 }
-/// The get_files will get all the files from a folder leaving2
-/// out the directories.
-/// It will return error if no file is found thus the user does
-/// not have to check if the returned vec has some values or not. 
+/// The get_files will get all the files from a folder leaving out the directories.
+/// It will return error if no file is found thus the user does not have to check if the returned vec has some values or not. 
 pub fn get_files(dir_path:&str)->Result<Vec<DirEntry>,Error>{
     let mut vec:Vec<DirEntry> = Vec::new() ;
     let entries  = get_entries(dir_path)?;
@@ -52,8 +48,7 @@ pub fn get_files(dir_path:&str)->Result<Vec<DirEntry>,Error>{
         return Ok(vec);
     }
 }
-/// The get_files_by_ext is just like get_files but it get files
-/// based on their extention.
+/// The get_files_by_ext is just like get_files but it get files based on their extention.
 /// Do not add "." (the dot) with file extention
 /// Example::
 /// "md" , "html" , "txt" etc
@@ -77,11 +72,11 @@ pub fn get_files_by_ext(dir_path:&str,ext:&str)->Result<Vec<DirEntry>,Error>{
         return Ok(vec);
     }
 }
-/// The get_dirs will get all the directories from a directory
-/// leaving out the files.
+/// The get_dirs will get all the directories from a 
+/// directory leaving out the files.
 /// It will return error if no directory is found thus 
-/// the user does not have to check if the returned vec has 
-/// some values or not.  
+/// the user does not have to check if the returned vec 
+/// has some values or not.  
 /// Do not include the "./" before the dir_path
 pub fn get_dirs(dir_path:&str)->Result<Vec<DirEntry>,Error>{
     let mut vec:Vec<DirEntry> = Vec::new() ;
@@ -102,19 +97,17 @@ pub fn get_dirs(dir_path:&str)->Result<Vec<DirEntry>,Error>{
         return Ok(vec);
     }
 }
-/// This function will create a file at given path as long 
-/// as the file does not exist already. In case the file aready
-/// exists it will return an error and will not over write the file. 
+/// This function will create a file at given path as
+/// long as the file does not exist already. In case 
+/// the file aready exists it will return an error and
+/// will not over write the file. 
 /// Its operation is safe.
-/// You need to give a complete file path : i.e file path + file
-/// name + extention. 
+/// You need to give a complete file path : i.e file
+///  path + file name + extention. 
 /// However you do not need to add "./" before the path, 
 /// that will be added automatically.
-/// ---
-///Example:let x = hdir.create_file("first/second/file_name.md");
-/// ---
-/// In case any folder in the given path is not found it will
-/// return error.
+/// Example :: let x = hdir.create_file("parent_folder/child_folder/file_name.md");
+/// In case any folder in the given path is not found it will an return error.
 
 pub fn create_file(file_path:&str)->Result<File,Error>{
     let path_exist = path_exists(file_path);
@@ -135,8 +128,9 @@ pub fn create_file(file_path:&str)->Result<File,Error>{
 pub fn create_file_brute(file_path:&str)->Result<File,Error>{
     File::create(file_path)
     } 
-/// The remove_file method can delete the file as per the given
-/// path.
+/// The remove_file method will delete the file on the
+/// given path.
+/// It is a wrapper around fs::remove_file
 pub fn remove_file(file_path:&str)->Result<bool,Error>{
     let path = Path::new(file_path);
         let result  = fs::remove_file(&path);
@@ -146,10 +140,13 @@ pub fn remove_file(file_path:&str)->Result<bool,Error>{
         }        
 }
 
-/// The creation of a directory is always a safe operation i.e in case
-/// the folder already exist it will return an error.
-/// Keep in mind that thorugh out this library the you do not 
-/// need to add "./", it is added automatically 
+/// The creation of a directory is always a safe 
+/// operation i.e in case the folder already exists it 
+/// will return an error.
+/// Example :: ```
+/// let p_dir = brown::create_dir("parent");
+///  assert!(p_dir.is_ok());
+/// ``` 
 pub fn create_dir( dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = Path::new(&complete);
@@ -169,8 +166,12 @@ pub fn create_dir( dir_name:&str)->Result<bool,Error> {
         }
 }
 /// The remove_dir funtion will remove a directory only of its empty.
-/// Its operation is safe. This fn should be used normally unless
-/// brute removal is required 
+/// Its operation is safe. This fn should be used normally unless brute removal is required 
+/// Example :: ```
+/// let p_dir = brown::create_dir("parent");
+/// let outcome = brown::remove_dir("parent");
+///  assert!(outcome.is_ok());
+/// ``` 
 pub fn remove_dir( dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = Path::new(&complete);
@@ -184,6 +185,11 @@ pub fn remove_dir( dir_name:&str)->Result<bool,Error> {
         }
 }
 /// The **remove_dir_brute** fn will delete a folder even if it has other files and folders. USE WITH CAUTION!!
+/// Example :: ```
+/// let p_dir = brown::create_dir("parent");
+/// let outcome = brown::remove_dir_brute("parent");
+///  assert!(outcome.is_ok());
+/// ``` 
 pub fn remove_dir_brute( dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = Path::new(&complete);
@@ -196,8 +202,7 @@ pub fn remove_dir_brute( dir_name:&str)->Result<bool,Error> {
             },
         }
 }
-/// The get_file_name takes a DirEntry and return its file name 
-/// with out the extentions.
+/// The get_file_name takes a DirEntry and return its file name with out the extentions.
 pub fn get_file_name(dir_entry:&DirEntry)->Result<String,Error>{
     let e = Error::new(ErrorKind::NotFound, "could not extract file name (stem)");
     let path = dir_entry.path();
