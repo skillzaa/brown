@@ -2,7 +2,8 @@ use std::fs;
 use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
 use std::path::Path;
-
+mod get_level;
+use get_level::get_level;
 ///The get_entries fn will get all the entries from a directory may it be files , folders or others. 
 ///If there is no entry in the said direcotry i.e there is no file or folder etc, in that case it will return
 ///an error. This will save the user from checking every time the returned vec if it has entries or not.

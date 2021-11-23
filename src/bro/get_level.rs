@@ -1,14 +1,10 @@
-use std::io::{Error,ErrorKind};
-use std::fs::{DirEntry};
-use crate::bro; //internallythe core of brown is known as bro
-// use qndr;
-
-pub fn get_dir_structure(parent_dir_path:&str)->Result<Vec<String>,Error>{
-//=========================   
-todo!();
-}
-
-fn get_level(incomming:&Vec<DirEntry>)->Result<Vec<DirEntry>,Error>{
+use std::fs::DirEntry;
+use crate::bro;
+use std::io::Error;
+/// The get_level fn takes a Vec of DirEntries and will return all the sub-directories of all the provided DirEntries.
+/// It is used to get all the sub-folder of a directory at any certain level by providing all the parent folders.
+/// This function is helpful while traverting a directory structure.
+pub fn get_level(incomming:&Vec<DirEntry>)->Result<Vec<DirEntry>,Error>{
 let mut output:Vec<DirEntry> = Vec::new();    
 for i in incomming {
     let res = 
@@ -32,4 +28,4 @@ for i in incomming {
 }
 Ok(output)
 }
-
+    
