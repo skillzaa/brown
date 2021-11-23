@@ -8,7 +8,7 @@
  >**Brown** library exports helpful functions which gives you a very simple API for creating managin and manipulating files,folder etc in the current working folder.
 
  - It has zero dependencies.
- - **Keep in mind that thorugh out this library the you do not need to add "./", it is added automatically**
+ - **Keep in mind that thorugh out this library you do not need to add "./", it is added automatically**
 
  ---
  ## Example

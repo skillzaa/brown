@@ -77,6 +77,7 @@ pub fn get_files_by_ext(dir_path:&str,ext:&str)->Result<Vec<DirEntry>,Error>{
 /// It will return error if no directory is found thus 
 /// the user does not have to check if the returned vec 
 /// has some values or not.  
+/// Note:: This function will dig in just one level. It will not look for sub-sub folders.
 /// Do not include the "./" before the dir_path
 pub fn get_dirs(dir_path:&str)->Result<Vec<DirEntry>,Error>{
     let mut vec:Vec<DirEntry> = Vec::new() ;
@@ -298,3 +299,29 @@ pub fn write_file(path:&str,content:&String)->Result<bool,Error>{
   fs::write(path, content)?;
   Ok(true)
 }
+pub fn direntry_to_path(direntry:&DirEntry)->Result<String,Error>{
+    let path_buf = direntry.path();
+    let f = path_buf.as_path().to_str().map(|s| s.to_string());
+    match f {
+        Some(ff)=> Ok(ff),
+        None=>{
+            let e = Error::new(ErrorKind::InvalidInput, "failed to extract path from Direntry");
+            Err(e)
+        },
+    }
+    // let path = String::from(path_buf.as_path());
+}
+// pub fn path_to_direntry(path_str:&str)->Result<DirEntry,Error>{
+//     let path = Path::new(path_str);
+//     let exists = path.exists();
+//     match exists {
+//         true=>{
+
+//         },
+//         false=>{
+//             let e = Error::new(ErrorKind::InvalidInput, "failed to extract path from Direntry");
+//             Err(e)
+//         },
+//     }
+//     // let path = String::from(path_buf.as_path());
+// }
