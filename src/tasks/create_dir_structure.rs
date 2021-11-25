@@ -1,14 +1,11 @@
-#[allow(dead_code)]
-
+// #[allow(dead_code)]
 use std::io::{Error,ErrorKind};
-use crate::bro; //internallythe core of brown is known as bro
+use crate::bro; 
 use qndr;
 
-pub fn run(parent_folder:&str,paths_list:Vec<&str>)
+pub fn run(paths_list:Vec<&str>)
 ->Result<bool,Error>{
-
-let parent_path = format!("./{}/", &parent_folder);
-
+let parent_path = format!("./");
 let mut nv:Vec<String> = Vec::new();
     for path in paths_list {
     //----sanitize
@@ -20,7 +17,7 @@ let mut nv:Vec<String> = Vec::new();
         let dir = format!("{}{}",parent_path,path);
         nv.push(dir);
     }
-    bro::create_dir(parent_path.as_str())?;
+    // bro::create_dir(parent_path.as_str())?;
     create_structure(&nv)?;
 Ok(true)                    
 }

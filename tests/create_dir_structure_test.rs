@@ -12,14 +12,12 @@ fn use_fn(){
                 "site/images", 
                 "hulkfolder/templates" ,
             ];
-let parent_folder = "cds";
-    let _a = brown::create_dir_structure::
-    run(parent_folder,paths_list);
+let _a = brown::create_dir_structure::
+run(paths_list);
     //====== tests
-    assert_eq!(true,brown::path_exists("cds/data"));
-    assert_eq!(true,brown::path_exists("cds/site/images"));
-    assert_eq!(true,brown::path_exists("cds/hulkfolder/templates"));
-//===clean up
-    let destroy = brown::remove_dir_brute(parent_folder).unwrap();
-    assert_eq!(destroy,true);
+    assert_eq!(true,brown::path_exists("./data"));
+    assert_eq!(true,brown::path_exists("./site/images"));
+    assert_eq!(true,brown::path_exists("./hulkfolder/templates"));
+
+    
 }
