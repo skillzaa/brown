@@ -302,6 +302,7 @@ pub fn write_file(path:&str,content:&String)->Result<bool,Error>{
   fs::write(path, content)?;
   Ok(true)
 }
+
 pub fn direntry_to_path(direntry:&DirEntry)->Result<String,Error>{
     let path_buf = direntry.path();
     let f = path_buf.as_path().to_str().map(|s| s.to_string());
@@ -314,17 +315,7 @@ pub fn direntry_to_path(direntry:&DirEntry)->Result<String,Error>{
     }
     // let path = String::from(path_buf.as_path());
 }
-// pub fn path_to_direntry(path_str:&str)->Result<DirEntry,Error>{
-//     let path = Path::new(path_str);
-//     let exists = path.exists();
-//     match exists {
-//         true=>{
 
-//         },
-//         false=>{
-//             let e = Error::new(ErrorKind::InvalidInput, "failed to extract path from Direntry");
-//             Err(e)
-//         },
-//     }
-//     // let path = String::from(path_buf.as_path());
+// pub fn path_to_direntry(path:&str)->Result<DirEntry,Error>{
+//    todo!();
 // }
