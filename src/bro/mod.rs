@@ -5,7 +5,7 @@ use std::io::{Error,ErrorKind};
 use std::path::Path;
 mod get_dirs_all; pub use get_dirs_all::*;
 mod direntry_to_path; pub use direntry_to_path::*;
-mod direntries_to_path; pub use direntries_to_path::*;
+mod direntry_to_path_all; pub use direntry_to_path_all::*;
 ///The get_entries fn will get all the entries from a directory may it be files , folders or others. 
 ///If there is no entry in the said direcotry i.e there is no file or folder etc, in that case it will return
 ///an error. This will save the user from checking every time the returned vec if it has entries or not.

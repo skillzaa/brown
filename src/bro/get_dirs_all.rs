@@ -32,9 +32,11 @@ Ok(output)
 #[cfg(test)]
 mod tests {
 use super::*;
-use super::super::super::testing;
+// use super::super::super::helper;
 use super::bro::*;
-// use testing::{setup_dirs};
+use super::super::super::TestSys;
+// let ts = TestSys::
+// let test_sys = TestSys::new();
 /**
  * first super  = get_dirs_multi
  * second super = mod.rs ie bro
@@ -43,9 +45,9 @@ use super::bro::*;
 
 #[test]
 fn uno() {
-let _ = testing::setup_dirs();
-assert!(bro:: path_exists(testing::PARENTFOLDER));
-let r = bro::get_dirs(testing::PARENTFOLDER);
+let _ = helper::setup_dirs();
+assert!(bro:: path_exists(helper::PARENTFOLDER));
+let r = bro::get_dirs(helper::PARENTFOLDER);
 assert!(r.is_ok());
 let level_one = r.unwrap();
 assert_eq!(level_one.len(),3);
@@ -105,7 +107,7 @@ for v in &level_three {
     assert!(paths.contains(&p.as_str()));
 }
 
-let _= testing::tear_down();
-assert!(!path_exists(testing::PARENTFOLDER));
+let _= helper::tear_down();
+assert!(!path_exists(helper::PARENTFOLDER));
 }
 } //tests mod ends
