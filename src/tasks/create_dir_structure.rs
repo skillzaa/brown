@@ -1,3 +1,5 @@
+#[allow(dead_code)]
+
 use std::io::{Error,ErrorKind};
 use crate::bro; //internallythe core of brown is known as bro
 use qndr;

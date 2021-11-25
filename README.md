@@ -60,5 +60,9 @@ Incase you have any issues with the library, let me know here [https://github.co
 My twitter handle is :: [rusthulk](https://twitter.com/rusthulk)
 
 ## Release Notes
-[version 0.0.9](./notes/0_0_9.md)
+<hr/>
+[version 0.1.0](./notes/0_1_0.md) 
+<hr/>
+[version 0.0.9](./notes/0_0_9.md) 
+<hr/>
 [version 0.0.8](./notes/0_0_8.md)

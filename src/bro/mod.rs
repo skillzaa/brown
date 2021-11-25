@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 use std::fs;
 use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
