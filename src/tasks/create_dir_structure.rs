@@ -5,7 +5,6 @@ use qndr;
 
 pub fn run(paths_list:Vec<&str>)
 ->Result<bool,Error>{
-let parent_path = format!("./");
 let mut nv:Vec<String> = Vec::new();
     for path in paths_list {
     //----sanitize
@@ -13,11 +12,9 @@ let mut nv:Vec<String> = Vec::new();
             println!("path not correct: {}",path);
             continue;
         }
-    
-        let dir = format!("{}{}",parent_path,path);
+        let dir = format!("./{}",path);
         nv.push(dir);
     }
-    // bro::create_dir(parent_path.as_str())?;
     create_structure(&nv)?;
 Ok(true)                    
 }
