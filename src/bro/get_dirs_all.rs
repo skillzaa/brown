@@ -1,10 +1,10 @@
 use std::fs::DirEntry;
 use crate::bro;
 use std::io::Error;
-/// The get_dirs_multi fn takes a Vec of DirEntries and will return all the sub-directories of all the provided DirEntries.
+/// This fn takes a Vec of DirEntries and will return all the sub-directories of all the provided DirEntries.
 /// It is used to get all the sub-folder of a directory at any given level by providing all the parent folders.
 /// This function is helpful for traversing a directory structure.
-pub fn get_dirs_multi(incomming:&Vec<DirEntry>)->Result<Vec<DirEntry>,Error>{
+pub fn get_dirs_all(incomming:&Vec<DirEntry>)->Result<Vec<DirEntry>,Error>{
 let mut output:Vec<DirEntry> = Vec::new();    
 for i in incomming {
     let res = 
@@ -62,7 +62,7 @@ for v in &level_one {
 }
 //--------------------level-two
 let level_two = 
-bro::get_dirs_multi(&level_one);
+bro::get_dirs_all(&level_one);
 assert!(level_two.is_ok());
 let level_two = level_two.unwrap();
     //println!("{:?}",level_two);
@@ -88,7 +88,7 @@ for v in &level_two {
 }
 //--------------------level-three
 let level_three = 
-bro::get_dirs_multi(&level_two);
+bro::get_dirs_all(&level_two);
 assert!(level_three.is_ok());
 let level_three = level_three.unwrap();
     // println!("{:?}",&level_three);

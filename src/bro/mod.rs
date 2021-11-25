@@ -3,8 +3,9 @@ use std::fs;
 use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
 use std::path::Path;
-mod get_dirs_multi;
-use get_dirs_multi::*;
+mod get_dirs_all; pub use get_dirs_all::*;
+mod direntry_to_path; pub use direntry_to_path::*;
+mod direntries_to_path; pub use direntries_to_path::*;
 ///The get_entries fn will get all the entries from a directory may it be files , folders or others. 
 ///If there is no entry in the said direcotry i.e there is no file or folder etc, in that case it will return
 ///an error. This will save the user from checking every time the returned vec if it has entries or not.
@@ -303,19 +304,3 @@ pub fn write_file(path:&str,content:&String)->Result<bool,Error>{
   Ok(true)
 }
 
-pub fn direntry_to_path(direntry:&DirEntry)->Result<String,Error>{
-    let path_buf = direntry.path();
-    let f = path_buf.as_path().to_str().map(|s| s.to_string());
-    match f {
-        Some(ff)=> Ok(ff),
-        None=>{
-            let e = Error::new(ErrorKind::InvalidInput, "failed to extract path from Direntry");
-            Err(e)
-        },
-    }
-    // let path = String::from(path_buf.as_path());
-}
-
-// pub fn path_to_direntry(path:&str)->Result<DirEntry,Error>{
-//    todo!();
-// }
