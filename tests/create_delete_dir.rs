@@ -1,6 +1,5 @@
 use brown;
 
-#[cfg(test)]
 #[test]
 fn create_delete_test() {
     let path = "./tests/trial";
