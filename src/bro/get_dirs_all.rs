@@ -32,17 +32,8 @@ Ok(output)
 #[cfg(test)]
 mod tests {
 use super::*;
-// use super::super::super::helper;
+use super::super::super::helper;
 use super::bro::*;
-use super::super::super::TestSys;
-// let ts = TestSys::
-// let test_sys = TestSys::new();
-/**
- * first super  = get_dirs_multi
- * second super = mod.rs ie bro
- * third super = lib.rs
- */
-
 #[test]
 fn uno() {
 let _ = helper::setup_dirs();
