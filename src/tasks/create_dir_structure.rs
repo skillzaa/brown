@@ -19,7 +19,7 @@ Ok(true)
 }
 fn sanitize(input:&str)->bool{
 let answer_one =  qndr::begin_with_alphabet(input);
-let answer_two  = qndr::alphanumeric_with_symbols(input, "\\_/");
+let answer_two  = qndr::alphanumeric_with_symbols(input, "\\_-~/");
 if answer_one && answer_two {true}else {false}
 }
 fn create_structure(path_list:&Vec<String>)->Result<bool,Error>{

@@ -15,7 +15,7 @@ fn use_fn(){
                 "hulkfolder/templates" ,
             ];
 let a = tasks::create_dir_structure::
-run(paths_list);
+run(&paths_list);
 assert!(a.is_ok());
     //====== tests
     assert_eq!(true,brown::path_exists("./data"));
