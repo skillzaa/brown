@@ -21,5 +21,12 @@ assert!(a.is_ok());
     assert_eq!(true,brown::path_exists("./data"));
     assert_eq!(true,brown::path_exists("./data_with"));
     assert_eq!(true,brown::path_exists("./site/images"));
-    assert_eq!(true,brown::path_exists("./hulkfolder/templates"));   
+    assert_eq!(true,brown::path_exists("./hulkfolder/templates")); 
+    
+    brown::remove_dir_brute("./data");
+    brown::remove_dir_brute("./data_with");
+    brown::remove_dir_brute("./site/images");
+    brown::remove_dir_brute("./hulkfolder/templates"); 
+    brown::remove_dir_brute("./hulkfolder"); 
+     
 }
