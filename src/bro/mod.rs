@@ -46,3 +46,14 @@ mod is_file;
 pub use is_file::is_file;
 //------------------------
 
+pub fn bool_to_result(input:bool,message:&str)->Result<bool,Error>{
+    match input {
+        true=>{
+            return Ok(true);
+        },
+        false=>{
+            let e = Error::new(ErrorKind::InvalidData,message);
+            return Err(e);
+        },
+    }
+}

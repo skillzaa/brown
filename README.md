@@ -8,6 +8,7 @@
  >**Brown** library exports helpful functions which gives you a very simple API for creating managin and manipulating files,folder etc in the current working folder.
 
  - It has zero dependencies.
+ - The *tasks* feature is experimental.
  - *Keep in mind that thorugh out this library you do not need to add "./", it is added automatically.*
 
  ---

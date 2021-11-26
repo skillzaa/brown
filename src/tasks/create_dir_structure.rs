@@ -1,6 +1,5 @@
 // #[allow(dead_code)]
 use std::io::{Error,ErrorKind};
-use crate::bro; 
 use qndr;
 
 pub fn run(paths_list:Vec<&str>)
@@ -20,19 +19,8 @@ Ok(true)
 }
 fn sanitize(input:&str)->bool{
 let answer_one =  qndr::begin_with_alphabet(input);
-let answer_two  = qndr::alphabets_with_symbols(input, "\\/");
+let answer_two  = qndr::alphabets_with_symbols(input, "\\_/");
 if answer_one && answer_two {true}else {false}
-}
-fn bool_to_result(input:bool,message:&str)->Result<bool,Error>{
-    match input {
-        true=>{
-            return Ok(true);
-        },
-        false=>{
-            let e = Error::new(ErrorKind::InvalidData,message);
-            return Err(e);
-        },
-    }
 }
 fn create_structure(path_list:&Vec<String>)->Result<bool,Error>{
 
