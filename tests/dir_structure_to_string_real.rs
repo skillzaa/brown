@@ -1,14 +1,10 @@
-use brown as bro;
-use std::fs::DirEntry;
-use std::io::{Error,ErrorKind};
 use brown::tasks;
 mod setup;
-use setup::*;
 #[cfg(test)]
 #[test]
 fn loop_test(){
 let _ = setup::build_up_dirs();
-let output = bro::tasks::dir_structure_to_string
+let output = tasks::dir_structure_to_string
 ::run(setup::PARENTFOLDER).unwrap();
 
 let _ = setup::tear_down();
