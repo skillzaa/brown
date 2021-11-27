@@ -33,6 +33,7 @@ Ok(mutated)
 /// Path strings are allowed to have alphanumeric characters and only these symbols ("-" , "_" , "~" , "\" and "/" )
 /// The path of a directory should not contain a "." only file path can contain a "." 
 pub fn path_sanitize(input:&str)->bool{
+    
 let answer_one =  qndr::begin_with_alphabet(input);
 let answer_two  = qndr::alphanumeric_with_symbols(input, "\\_-~./");
 if answer_one && answer_two {true}else {false}
