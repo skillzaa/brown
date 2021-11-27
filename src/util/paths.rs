@@ -1,5 +1,5 @@
-use std::io::{Error,ErrorKind};
-
+use std::io::{Error};
+use crate::qndr;
 /// This fn takes a &Vec<String> of paths and sanitize them one by one. The returned results are just the valid paths.
 pub fn paths_sanitize(paths:&Vec<String>)->Result<Vec<String>,Error>{
     let mut mutated:Vec<String> = Vec::new();

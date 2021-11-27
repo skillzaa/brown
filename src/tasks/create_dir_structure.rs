@@ -1,6 +1,7 @@
 // #[allow(dead_code)]
 use std::io::{Error,ErrorKind};
-use qndr;
+use crate::qndr;
+
 
 pub fn run(paths_list:&Vec<&str>)
 ->Result<bool,Error>{

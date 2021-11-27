@@ -14,4 +14,3 @@ readme = "README.md"
 doctest = true
 
 [dependencies]
-qndr = "0.1.7"
