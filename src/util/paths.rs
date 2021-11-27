@@ -12,23 +12,20 @@ pub fn paths_sanitize(paths:&Vec<String>)->Result<Vec<String>,Error>{
     }
 Ok(mutated)    
 }
-pub fn path_change_parent(paths:&Vec<String>,source:&str,destination:&str)->Result<Vec<String>,Error>{
+pub fn paths_change_parent(paths:&Vec<String>,source:&str,destination:&str)->Result<Vec<String>,Error>{
     let mut mutated:Vec<String> = Vec::new();
     for s in paths{
         let jj = s.replace(source, 
             destination);
-        let jjj = jj.replace("./", "");
-        mutated.push(jjj);
+        mutated.push(jj);
     }
 Ok(mutated)    
 }
-pub fn path_remove_leading_symbols(paths:&Vec<String>,source:&str,destination:&str)->Result<Vec<String>,Error>{
+pub fn paths_remove_dot_slash(paths:&Vec<String>)->Result<Vec<String>,Error>{
     let mut mutated:Vec<String> = Vec::new();
     for s in paths{
-        let jj = s.replace(source, 
-            destination);
-        let jjj = jj.replace("./", "");
-        mutated.push(jjj);
+        let j = s.replace("./", "");
+        mutated.push(j);
     }
 Ok(mutated)    
 }
