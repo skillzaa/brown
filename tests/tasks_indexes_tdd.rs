@@ -102,9 +102,9 @@ let mut final_nav:Vec<String> = Vec::new();
         let exploded = 
         qndr::explode(nav_bar_str, '/');
             if exploded.len() > 1 {
-                for e in exploded {
+                for e in &exploded {
                     let nav_item 
-                    = get_nav_item(&e);  
+                    = get_nav_item(&e,&exploded);  
                     output.push_str(&nav_item);   
                 }
             
@@ -115,10 +115,46 @@ let mut final_nav:Vec<String> = Vec::new();
     }
     // todo!();
 }
+#[test]
+fn test_get_nav_bar(){
+    let output = get_nav_bar("delme/a/a1"); 
+    println!("output{:#?}",output);
 
-fn get_nav_item(item:&String)->String{
-let output = 
-format!("<a href='./{}/index.html'>{}</a>",item,item);
-// output.push_str("<br/>");
+}
+fn get_nav_bar(url:&str)->String{
+let mut output = String::new();    
+    let exploded = 
+        qndr::explode(url, '/');
+
+        if exploded.len() > 1 {
+                for e in &exploded {
+                    let nav_item 
+                    = get_nav_item(&e,&exploded);  
+                    output.push_str(&nav_item);   
+                }
+            
+            }
+// println!("output{:#?}",output);
 output
+}
+
+fn get_nav_item(item:&String,exploded:&Vec<String>)->String{
+let mut output = String::from("<a href='./");
+for i in exploded {
+    if i == item {
+        output.push_str(&item);
+        output.push_str("/index.html'>");
+        output.push_str(&item);
+        output.push_str("</a>");
+
+    }else {
+
+        output.push_str(&item);
+        output.push_str("/");
+               // format!("<a href='./{}/index.html'>{}</a>",item,item);
+        // output.push_str("<br/>");
+        return output;
+    }
+}
+return output
 }

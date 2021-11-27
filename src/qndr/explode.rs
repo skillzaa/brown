@@ -11,7 +11,7 @@ let mut c:String = String::new();
             c = String::new();
         }
     }
-    if c.len() > 1 {
+    if c.len() > 0 {
         output.push(c);
         c = String::new();
     }
