@@ -1,7 +1,5 @@
 use brown as bro;
-use brown::tasks;
 mod setup;
-use setup::*;
 #[cfg(test)]
 #[test]
 fn use_fn(){
