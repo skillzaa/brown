@@ -30,12 +30,12 @@ pub fn paths_remove_dot_slash(paths:&Vec<String>)->Result<Vec<String>,Error>{
 Ok(mutated)    
 }
 /// The paths used through out this lib start with the name of the parent folder (obviously under the current working folder). There is no need to add "./" in the begining since that is done automatically.
-/// Path strings are allowed to have alphanumeric characters and only these symbols ("-" , "_" , "~" , "\" and "/" )
+/// Path strings are allowed to have alphanumeric characters and only these symbols ("-" , "_" , "~" and "/" ). NO BACKSLASH ALLOWED
 /// The path of a directory should not contain a "." only file path can contain a "." 
 pub fn path_sanitize(input:&str)->bool{
     
 let answer_one =  qndr::begin_with_alphabet(input);
-let answer_two  = qndr::alphanumeric_with_symbols(input, "\\_-~./");
+let answer_two  = qndr::alphanumeric_with_symbols(input, "_-~./");
 if answer_one && answer_two {true}else {false}
 }
 
