@@ -10,6 +10,7 @@ pub mod qndr;
 pub mod tasks;
 // mod util;
 mod bro;
+pub mod navbar;
 pub use bro::*;
 
 pub mod util;
