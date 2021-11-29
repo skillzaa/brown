@@ -1,6 +1,6 @@
 [package]
 name = "brown"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 authors = ["bilal <skillzaa.com@gmail.com>"]
 description = "A simple library that makes dealing with Rust file system a breeze"

@@ -1,15 +1,15 @@
 # Brown
  > A simple library that makes dealing with Rust file system a breeze.
  ---
-*Please wait till version 1.0 for use in production*
  Any one who has done any file system related project in Rust will know that the Rust file system (std::fs) is a bit wonky (so say the least).
 
 
  >**Brown** library exports helpful functions which gives you a very simple API for creating managin and manipulating files,folder etc in the current working folder.
 
- - It has zero dependencies.
  - The *tasks* feature is experimental.
  - *Keep in mind that thorugh out this library you do not need to add "./", it is added automatically.*
+ - *Please wait till version 1.0 for use in production*
+
 
  ---
  ## Example
