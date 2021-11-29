@@ -23,18 +23,16 @@ impl NavBar{
         .get_links();
         let links = 
         links_raw.into_iter().collect::<String>();
-        //navbar.push_str(navbar_start());
+        navbar.push_str(navbar_start());
         
         navbar.push_str(&links);
-        //navbar.push_str(navbar_end());
+        navbar.push_str(navbar_end());
         navbar
     }
 }
 
 fn navbar_start()->&'static str{
-let r = r#"<header id="header">
-	<nav class="links" style="--items: 1;">
-    "#;
+let r = r#"<header id='header'><nav class='links' style='--items: 1;'>"#;
 r    
 }
 fn navbar_end()->&'static str{

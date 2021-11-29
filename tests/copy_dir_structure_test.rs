@@ -9,6 +9,8 @@ let output = tasks::copy_dir_structure
 // let _ = setup::tear_down();
 println!("{:#?}",output);
 //check_output(&output_one);
+setup::tear_down();
+brown::remove_dir_brute("tests/abc");
 }
 
 fn check_output(output:&Vec<&str>)->bool {
@@ -27,5 +29,6 @@ assert_eq!(v,[
     "tests/abc/c/c2/c22",
     "tests/abc/c/c2/c21",
 ]);
-    true
+   
+true
 }

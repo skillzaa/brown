@@ -1,4 +1,3 @@
-// use crate::qndr;
 use std::io::{ErrorKind,Error};
 // in a lib you talk to siblings through mod.rs 
 pub struct UrlToLinks{
@@ -40,7 +39,7 @@ impl UrlToLinks {
         let item = self.get_item(counter);
                 
         let link = 
-        format!("<a href='./{}'>{}</a>",segments,item);      
+        format!("<a href='./{}index.html'>{}</a>",segments,item);      
         link
         }
     pub fn get_links(&self)->Vec<String>{
