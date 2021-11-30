@@ -1,5 +1,4 @@
-use crate::qndr;
-use std::io::{ErrorKind,Error};
+use std::io::{Error};
 
 mod urltolinks;
 use urltolinks::UrlToLinks;
@@ -40,4 +39,16 @@ fn navbar_end()->&'static str{
  r
 }
 
+#[cfg(test)]
+mod tests {
+ use super::*;
+#[test]
+fn test_nav_final(){
+    let url = "delme/a/a1/a11/a111";
+let navbar = 
+NavBar::new(url).unwrap();
+let output = r#"<header id='header'><nav class='links' style='--items: 1;'><a href='./delme/index.html'>delme</a><a href='./delme/a/index.html'>a</a><a href='./delme/a/a1/index.html'>a1</a><a href='./delme/a/a1/a11/index.html'>a11</a><a href='./delme/a/a1/a11/a111/index.html'>a111</a></nav></header>"#;
+assert_eq!(output,navbar.gen_navbar());
+}
+}
 
