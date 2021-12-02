@@ -1,15 +1,13 @@
 use std::io::{ErrorKind,Error};
 // in a lib you talk to siblings through mod.rs 
 pub struct UrlToLinks{
-  url:&'static str,
+  url:String,
   segments:Vec<String>
 }
 impl UrlToLinks {
-    pub fn new(url:&'static str)->Result<Self,Error>{
-        
+    pub fn new(url:String)->Result<Self,Error>{    
         let segments_str:Vec<&str> = 
-        url.split('/').collect();
-        
+        url.split('/').collect();     
          if segments_str.len() < 1 {
              let e = Error::new(ErrorKind::InvalidData,"url seems faulty");
              return Err(e);
@@ -68,7 +66,8 @@ use super::*;
 #[test]
 fn test_get_segments(){
 let url = "delme/a/a1/a11/a111";
-let r = UrlToLinks::new(url);
+let r = UrlToLinks
+::new(url.to_string());
     match r {
         Ok(urltolinks)=>{
             assert_eq!(urltolinks.get_segments(0),"delme/");
@@ -84,7 +83,8 @@ let r = UrlToLinks::new(url);
 #[test]
 fn test_get_items(){
 let url = "delme/a/a1/a11/a111";
-let r = UrlToLinks::new(url);
+let r = 
+UrlToLinks::new(url.to_string());
     match r {
         Ok(urltolinks)=>{
             assert_eq!(urltolinks.get_item(0),"delme");
