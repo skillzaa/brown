@@ -12,15 +12,15 @@ dir_structure_to_string(source)?;
 //============ Step Two  
 let bro_path = BroPath::new();
 let paths_changed_parent = 
-bro_path.paths_change_destination(&source_str, source, destination)?;
+bro_path.change_destination(&source_str, source, destination)?;
 
 let mutated = 
-bro_path.paths_remove_dot_slash(&paths_changed_parent)?;
+bro_path.remove_dot_slash_all(&paths_changed_parent)?;
 //============ Step Three
 let mutated_str:Vec<&str>  = 
 mutated.iter().map(|s| &**s).collect();
-let _x = tasks::create_dir_structure
-::run(&mutated_str);
+let _x = bro::create_dir_structure
+(&mutated_str);
    Ok(mutated) 
 }
     

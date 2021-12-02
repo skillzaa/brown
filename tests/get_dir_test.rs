@@ -19,6 +19,6 @@ fn get_dir_test() {
     let rem_dirs_opt = setup::remove_dirs();
     
     assert!(rem_dirs_opt.is_ok()); //since have  no dirs so it returns error ifit find no dirs.
-    setup::tear_down();        
+    let _ = setup::tear_down();        
 
 }

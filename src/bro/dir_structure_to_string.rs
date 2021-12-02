@@ -1,5 +1,6 @@
 // #[allow(dead_code)]
 use std::io::{Error,ErrorKind};
+use crate::bro;
 /// The dir_structure_to_string will convert all the paths of a folder into a vec of strings.
 /// We give this function the name of the folder and it returns us a vec containing paths to all the subfolders. This vec will also include the path to the parent folder along with all its sub folders.
 /// This fn is helpful when we want to create a new folder structure as per and existing folder structure.

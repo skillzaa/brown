@@ -1,9 +1,5 @@
 use brown as bro;
-use std::fs::DirEntry;
-use std::io::{Error,ErrorKind};
-use brown::tasks;
 mod setup;
-use setup::*;
 #[cfg(test)]
 #[test]
 fn loop_test(){

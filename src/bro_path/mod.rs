@@ -19,7 +19,7 @@ impl BroPath{
         }
     Ok(mutated)    
     }
-    pub fn change_parent(&self,paths:&Vec<String>,source:&str,destination:&str)->Result<Vec<String>,Error>{
+    pub fn change_destination(&self,paths:&Vec<String>,source:&str,destination:&str)->Result<Vec<String>,Error>{
         let mut mutated:Vec<String> = Vec::new();
         for s in paths{
             let jj = s.replace(source, 
