@@ -1,8 +1,5 @@
 #[allow(dead_code)]
-use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
-use std::path::Path;
 //------------------------
 mod get_dirs_all; 
 pub use get_dirs_all::*;

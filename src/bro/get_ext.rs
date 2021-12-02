@@ -1,8 +1,5 @@
-use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
+use std::fs::{DirEntry};
 use std::io::{Error,ErrorKind};
-use std::path::Path;
-use crate::bro;
 
 /// The get_ext function will take a DirEntry object and return the
 /// file extention. This saves us a lot of efforts and conversion

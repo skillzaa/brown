@@ -1,8 +1,7 @@
 use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
+use std::fs::{ReadDir};
 use std::io::{Error,ErrorKind};
 use std::path::Path;
-use crate::bro;
 
 /// The get_read_dir will return "ReadDir" struct from Rust which
 /// is a iterator over the directory  

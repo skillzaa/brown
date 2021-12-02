@@ -1,10 +1,6 @@
-use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
 use std::io::{Error,ErrorKind};
-use std::path::Path;
 use crate::bro;
-
-
+use std::fs::DirEntry;
 /// The get_dirs will get all the directories from a 
 /// directory leaving out the files.
 /// It will return error if no directory is found thus 

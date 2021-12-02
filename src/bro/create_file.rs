@@ -1,7 +1,5 @@
-use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
+use std::fs::{File};
 use std::io::{Error,ErrorKind};
-use std::path::Path;
 use crate::bro;
 /// This function will create a file at given path as
 /// long as the file does not exist already. In case 

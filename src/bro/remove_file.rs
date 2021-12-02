@@ -1,8 +1,6 @@
 use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
-use std::io::{Error,ErrorKind};
+use std::io::{Error};
 use std::path::Path;
-use crate::bro;
 
 /// The remove_file method will delete the file on the
 /// given path.

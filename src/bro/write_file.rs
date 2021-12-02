@@ -1,7 +1,5 @@
 use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
-use std::io::{Error,ErrorKind};
-use std::path::Path;
+use std::io::{Error};
 
 /// This function will create a file if it does not exist, and 
 /// will entirely replace its contents if it does.

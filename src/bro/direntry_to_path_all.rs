@@ -1,4 +1,4 @@
-use std::io::{Error,ErrorKind};
+use std::io::{Error};
 use std::fs::DirEntry;
 use super::*;
 /// This fn will take a Rust a Vec of &DirEntry type and return all of its paths as string.

@@ -1,7 +1,5 @@
-use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
+use std::fs::{DirEntry};
 use std::io::{Error,ErrorKind};
-use std::path::Path;
 use crate::bro;
 /// The get_files will get all the files from a folder leaving out the directories.
 /// It will return error if no file is found thus the user does not have to check if the returned vec has some values or not. 

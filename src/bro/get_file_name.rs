@@ -1,8 +1,5 @@
-use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
+use std::fs::{DirEntry};
 use std::io::{Error,ErrorKind};
-use std::path::Path;
-use crate::bro;
 
 
 /// The get_file_name takes a DirEntry and return its file name with out the extentions.

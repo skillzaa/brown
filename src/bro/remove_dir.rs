@@ -1,8 +1,6 @@
 use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
-use std::io::{Error,ErrorKind};
+use std::io::{Error};
 use std::path::Path;
-use crate::bro;
 
 /// The remove_dir funtion will remove a directory only of its empty.
 /// Its operation is safe. This fn should be used normally unless brute removal is required 

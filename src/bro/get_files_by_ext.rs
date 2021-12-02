@@ -1,7 +1,5 @@
-use std::fs;
-use std::fs::{ReadDir,DirEntry,File};
+use std::fs::{DirEntry};
 use std::io::{Error,ErrorKind};
-use std::path::Path;
 use crate::bro;
 
 /// The get_files_by_ext is just like get_files but it get files based on their extention.
