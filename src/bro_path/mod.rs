@@ -1,5 +1,5 @@
 use std::io::{Error,ErrorKind};
-use crate::qndr;
+
 /// This fn takes a &Vec<String> of paths and sanitize them one by one. The returned results are just the valid paths.
 pub struct BroPath{}
 
@@ -8,9 +8,10 @@ impl BroPath{
         BroPath{}
     }
     pub fn sanitize_all(&self,paths:&Vec<String>)->Result<Vec<String>,Error>{
+  
         let mut mutated:Vec<String> = Vec::new();
         for s in paths{
-          if self.sanitize(s){
+          if self.sanitize(s).is_ok() {
               mutated.push(s.to_owned())
           }else {
               continue;
@@ -40,21 +41,24 @@ impl BroPath{
     }
     /// The paths used through out this lib start with the name of the parent folder (obviously under the current working folder). There is no need to add "./" in the begining since that is done automatically.
     /// Path strings are allowed to have alphanumeric characters and only these symbols ("-" , "_" , "~" and "/" ). NO BACKSLASH ALLOWED
-    /// The path of a directory should not contain a "." only file path can contain a "." 
-    pub fn sanitize(&self,input:&str)->Result<bool,Error>{
+    /// The path should also not contain a "." 
+    pub fn sanitize(&self,input:&String)->Result<bool,Error>{
         
     let begin_with_alphabet =  qndr::begin_with_alphabet(input);
             match  begin_with_alphabet {
             false=>{
                 let e = Error::new(ErrorKind::InvalidInput,"path must begin with alphabet, remove ./ if any");
+                return Err(e);
             },
             _=>{},
             }
-    let alphanumeric_with_symbols  = qndr::alphanumeric_with_symbols(input, "_-~./");
+    let alphanumeric_with_symbols  = 
+    qndr::alphanumeric_with_symbols(input, "_-~/");
     
     match  alphanumeric_with_symbols {
         false=>{
-            let e = Error::new(ErrorKind::InvalidInput,"you can only use url safe symbols (-,_,~,.)");
+            let e = Error::new(ErrorKind::InvalidInput,"you can only use url safe symbols (-,_,~)");
+            return Err(e);
         },
         _=>{},
         }
@@ -74,12 +78,15 @@ use super::BroPath;
 #[test]
 fn sanitize_path_test(){
 let bro_path = BroPath::new();    
-assert!(bro_path.sanitize("parent/sub1/sub2/sub3/sub4"));
-assert!(bro_path.sanitize("parent/sb_1/sb-2/sub~/sub4"));
+assert!(bro_path.sanitize(&"parent/sub1/sub2/sub3/sub4".to_string()).is_ok());
+assert!(bro_path.sanitize(&"parent/sb_1/sb-2/sub~/sub4".to_string()).is_ok());
 // -- this should not happen no dots between dirs
-assert!(bro_path.sanitize("parent/sb.1/sb-2/sub~/sub4"));
+assert!(bro_path.sanitize(&"parent/sb.1/sb-2/sub~/sub4".to_string()).is_ok());
 //-- this is ok
-assert!(bro_path.sanitize("parent/su1/sub-2/sub~/sub4.html"));
+assert!(bro_path.sanitize(&"parent/su1/sub-2/sub~/sub4.html".to_string()).is_ok());
+//============ NOT OK
+assert!(bro_path.sanitize(&"par.ent/su.1/su.b-2/sub~/sub4.html".to_string()).is_err());
+
 }
 
 #[test]
@@ -90,7 +97,7 @@ paths.push(String::from("parent/sb_1/sb-2/sub~/sub4"));
 paths.push(String::from("parent/sb.1/sb-2/sub~/sub4"));
 paths.push(String::from("parent/su1/sub-2/sub~/sub4.html"));
 let bp = BroPath::new();    
-let x = bp.paths_sanitize(&paths).unwrap();
+let x = bp.sanitize_all(&paths).unwrap();
 assert!(x.len()==4);
 // println!("{:#?}",x);
     }

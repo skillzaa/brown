@@ -1,5 +1,5 @@
-use brown::tasks;
 mod setup;
+use brown as bro;
 #[cfg(test)]
 #[test]
 fn loop_test(){

@@ -43,6 +43,16 @@ mod is_file;
 pub use is_file::is_file;
 //------------------------
 
+mod copy_dir_structure;
+pub use copy_dir_structure::copy_dir_structure;
+
+mod create_dir_structure;
+pub use create_dir_structure::create_dir_structure;
+
+mod dir_structure_to_string;
+pub use dir_structure_to_string::dir_structure_to_string;
+//------------------------
+
 pub fn bool_to_result(input:bool,message:&str)->Result<bool,Error>{
     match input {
         true=>{

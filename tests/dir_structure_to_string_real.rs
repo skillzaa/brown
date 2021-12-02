@@ -1,11 +1,11 @@
-use brown::tasks;
+use brown as bro;
 mod setup;
 #[cfg(test)]
 #[test]
 fn loop_test(){
 let _ = setup::build_up_dirs();
-let output = tasks::dir_structure_to_string
-::run(setup::PARENTFOLDER).unwrap();
+let output = bro::dir_structure_to_string
+(setup::PARENTFOLDER).unwrap();
 
 let _ = setup::tear_down();
 // println!("{:#?}",output);

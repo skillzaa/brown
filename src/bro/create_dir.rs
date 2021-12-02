@@ -12,7 +12,7 @@ use crate::bro_path::BroPath;
 /// ``` 
 pub fn create_dir( dir_path:&str)->Result<bool,Error> {
     let bp = BroPath::new();
-    bp.sanitize(&dir_path)?;
+    bp.sanitize(&dir_path.to_string())?;
 
     let complete = String::from("./") + &dir_path;
     let path = Path::new(&complete);

@@ -3,7 +3,7 @@ use std::io::{Error};
 use crate::qndr;
 
 
-pub fn run(paths_list:&Vec<&str>)
+pub fn create_dir_structure(paths_list:&Vec<&str>)
 ->Result<bool,Error>{
 let mut nv:Vec<String> = Vec::new();
     for path in paths_list {

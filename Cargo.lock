@@ -5,3 +5,12 @@ version = 3
 [[package]]
 name = "brown"
 version = "0.1.6"
+dependencies = [
+ "qndr",
+]
+
+[[package]]
+name = "qndr"
+version = "0.1.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77f94121139c824ef3864b4ba43be4f3302358aaa65f4cb87dced40d74253e7d"
