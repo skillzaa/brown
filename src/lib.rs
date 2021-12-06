@@ -1,9 +1,13 @@
+/// Brown library (Bilal Tariq 3-Sep-2021)
 
-mod helper;
-mod util;
+
+//----- public Interface
 mod bro;
-mod bro_path;
-
 pub use bro::*;
 
+
+//----- private 
+mod helper;
+mod util;
+mod bro_path;
 use bro_path::BroPath;

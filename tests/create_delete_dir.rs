@@ -2,7 +2,7 @@ use brown;
 
 #[test]
 fn create_delete_test() {
-    let path = "./tests/trial";
+    let path = "tests/trial";
     // create once
     let r = brown::create_dir(path);
     assert!(r.is_ok());

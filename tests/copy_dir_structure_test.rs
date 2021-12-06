@@ -4,13 +4,13 @@ use brown as bro;
 #[test]
 fn loop_test(){
 let _ = setup::build_up_dirs();
-let output = tasks::copy_dir_structure
-::run(setup::PARENTFOLDER,"tests/abc/").unwrap();
+let output = bro::copy_dir_structure
+(setup::PARENTFOLDER,"tests/abc/").unwrap();
 // let _ = setup::tear_down();
 println!("{:#?}",output);
 //check_output(&output_one);
-setup::tear_down();
-brown::remove_dir_brute("tests/abc");
+let _ = setup::tear_down();
+let _ = brown::remove_dir_brute("tests/abc");
 }
 
 fn check_output(output:&Vec<&str>)->bool {

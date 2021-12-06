@@ -1,12 +1,12 @@
 use std::io::{Error,ErrorKind};
 
-/// This fn takes a &Vec<String> of paths and sanitize them one by one. The returned results are just the valid paths.
 pub struct BroPath{}
 
 impl BroPath{
     pub fn new()->Self{
         BroPath{}
     }
+    /// This fn takes a &Vec<String> of paths and sanitize them one by one. The returned results are just the valid paths.
     pub fn sanitize_all(&self,paths:&Vec<String>)->Result<Vec<String>,Error>{
   
         let mut mutated:Vec<String> = Vec::new();
@@ -76,29 +76,31 @@ mod tests {
 // use crate::util::vec_str_to_string;
 use super::BroPath; 
 #[test]
-fn sanitize_path_test(){
+fn sanitize_test(){
 let bro_path = BroPath::new();    
 assert!(bro_path.sanitize(&"parent/sub1/sub2/sub3/sub4".to_string()).is_ok());
 assert!(bro_path.sanitize(&"parent/sb_1/sb-2/sub~/sub4".to_string()).is_ok());
 // -- this should not happen no dots between dirs
-assert!(bro_path.sanitize(&"parent/sb.1/sb-2/sub~/sub4".to_string()).is_ok());
+assert!(bro_path.sanitize(&"parent/sb.1/sb-2/sub~/sub4".to_string()).is_err());
 //-- this is ok
-assert!(bro_path.sanitize(&"parent/su1/sub-2/sub~/sub4.html".to_string()).is_ok());
+assert!(bro_path.sanitize(&"parent/su1/sub-2/sub~/sub4.html".to_string()).is_err());
 //============ NOT OK
 assert!(bro_path.sanitize(&"par.ent/su.1/su.b-2/sub~/sub4.html".to_string()).is_err());
 
 }
 
 #[test]
-fn sanitize_paths_test(){
+// - i dont know how will we insert file with . ext
+fn sanitize_all_test(){
 let mut paths:Vec<String> = Vec::new();
 paths.push(String::from("parent/sub1/sub2/sub3/sub4"));
 paths.push(String::from("parent/sb_1/sb-2/sub~/sub4"));
+//this will not return since has .
 paths.push(String::from("parent/sb.1/sb-2/sub~/sub4"));
-paths.push(String::from("parent/su1/sub-2/sub~/sub4.html"));
+paths.push(String::from("parent/su1/sub-2/sub~/sub4"));
 let bp = BroPath::new();    
 let x = bp.sanitize_all(&paths).unwrap();
-assert!(x.len()==4);
+assert!(x.len()==3); // one url removed due to dot
 // println!("{:#?}",x);
     }
 }
