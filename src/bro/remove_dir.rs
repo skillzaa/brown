@@ -6,6 +6,8 @@ use std::path::Path;
 /// Its operation is safe. This fn should be used normally unless brute removal is required 
 /// Example :: 
 /// ```rust
+/// // Ensure there is no old folder
+/// let _ = brown::remove_dir_brute("parent");
 /// let p_dir = brown::create_dir("parent");
 /// let outcome = brown::remove_dir("parent");
 ///  assert!(outcome.is_ok());
