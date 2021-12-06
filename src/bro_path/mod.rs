@@ -57,7 +57,7 @@ impl BroPath{
     
     match  alphanumeric_with_symbols {
         false=>{
-            let e = Error::new(ErrorKind::InvalidInput,"you can only use url safe symbols (-,_,~)");
+            let e = Error::new(ErrorKind::InvalidInput,"you can only use url safe symbols (-,_,~,/)");
             return Err(e);
         },
         _=>{},
