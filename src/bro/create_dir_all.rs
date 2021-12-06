@@ -60,7 +60,7 @@ use super::super::*;
         assert!(parent_created.is_ok());
 
         let parent_removed = 
-        remove_dir_brute("parent/sub_folder/sub_sub_folder/sub_sub_sub_folder");
+        remove_dir_brute("parent");
         
         assert!(parent_removed.is_ok());
     

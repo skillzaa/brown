@@ -35,4 +35,20 @@ fn basic(){
  let deleted = remove_file("some_file.md");
  assert!(deleted.is_ok());   
 }    
+#[test]
+fn second(){
+ let folders = 
+ create_dir_all("somefolder/sub"); 
+ assert!(folders.is_ok());
+ let created = 
+ create_file_brute("somefolder/sub/file.md");
+ assert!(created.is_ok());
+ let deleted = 
+ remove_file("somefolder/sub/file.md");
+ assert!(deleted.is_ok()); 
+ let cleanup = 
+ remove_dir_brute("somefolder");  
+ assert!(cleanup.is_ok()); 
+
+}    
 }
