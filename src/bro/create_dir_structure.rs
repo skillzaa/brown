@@ -1,7 +1,7 @@
 // #[allow(dead_code)]
 use std::io::{Error};
 
-
+/// The create_dir_structure will take a &Vec of String (paths) ususally provided by brown::dir_structure_to_string and create a folder structure using that.
 pub fn create_dir_structure(paths_list:&Vec<&str>)
 ->Result<bool,Error>{
 let mut nv:Vec<String> = Vec::new();
