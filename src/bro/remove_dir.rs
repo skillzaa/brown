@@ -4,7 +4,8 @@ use std::path::Path;
 
 /// The remove_dir funtion will remove a directory only of its empty.
 /// Its operation is safe. This fn should be used normally unless brute removal is required 
-/// Example :: ```
+/// Example :: 
+/// ```rust
 /// let p_dir = brown::create_dir("parent");
 /// let outcome = brown::remove_dir("parent");
 ///  assert!(outcome.is_ok());

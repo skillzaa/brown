@@ -2,7 +2,8 @@ use std::fs;
 use std::io::{Error};
 use std::path::Path;
 /// The **remove_dir_brute** fn will delete a folder even if it has other files and folders. USE WITH CAUTION!!
-/// Example :: ```
+/// Example :: 
+/// ```rust
 /// let p_dir = brown::create_dir("parent");
 /// let outcome = brown::remove_dir_brute("parent");
 ///  assert!(outcome.is_ok());
