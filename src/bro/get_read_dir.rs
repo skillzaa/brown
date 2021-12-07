@@ -1,11 +1,10 @@
 use std::fs;
 use std::fs::{ReadDir};
-use std::io::{Error,ErrorKind};
 use std::path::Path;
-
+use crate::BrownError;
 /// The get_read_dir will return "ReadDir" struct from Rust which
 /// is a iterator over the directory  
-pub fn get_read_dir(dir_path:&str)->Result<ReadDir,Error>{
+pub fn get_read_dir(dir_path:&str)->Result<ReadDir,BrownError>{
     let complete = String::from("./") + &dir_path;
     let path_com = Path::new(&complete);
     let read_dir = fs::read_dir(path_com);
@@ -14,8 +13,7 @@ pub fn get_read_dir(dir_path:&str)->Result<ReadDir,Error>{
             return Ok(read_dir_ok);
         },
         Err(_e)=>{
-            let e = Error::new(ErrorKind::NotFound, "failed to read the directory, it may not exist or the path may be wrong");
-            return Err(e);
+            return Err(BrownError::DirNotFound);
         },
     }
 }    

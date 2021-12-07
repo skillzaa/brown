@@ -1,5 +1,5 @@
-use std::io::{Error,ErrorKind};
 use crate::bro;
+use crate::BrownError;
 use std::fs::DirEntry;
 /// The get_dirs will get all the directories from a 
 /// directory leaving out the files.
@@ -8,7 +8,7 @@ use std::fs::DirEntry;
 /// has some values or not.  
 /// Note:: This function will dig in just one level. It will not look for sub-sub folders.
 /// Do not include the "./" before the dir_path
-pub fn get_dirs(dir_path:&str)->Result<Vec<DirEntry>,Error>{
+pub fn get_dirs(dir_path:&str)->Result<Vec<DirEntry>,BrownError>{
     let mut vec:Vec<DirEntry> = Vec::new() ;
     let entries  = bro::get_entries(dir_path)?;
     for entry in entries {
@@ -21,8 +21,7 @@ pub fn get_dirs(dir_path:&str)->Result<Vec<DirEntry>,Error>{
         }
     }
     if vec.len() <= 0 {
-        let e = Error::new(ErrorKind::NotFound,"found no folders in the directory");
-        return Err(e);
+        return Err(BrownError::DirEmpty);
     }else {
         return Ok(vec);
     }

@@ -1,16 +1,16 @@
 // #[allow(dead_code)]
-use std::io::{Error,ErrorKind};
 use crate::bro;
+use crate::BrownError;
 /// The dir_structure_to_string will convert all the paths of a folder into a vec of strings.
 /// 
 /// This function takes the name of the folder and it returns us a vec containing paths to the folder and all its subfolders (The returned vec will include the path to the parent folder along with all its sub folders).
 /// 
 /// This fn is helpful when we want to create a new folder structure as per an existing folder structure.
-pub fn dir_structure_to_string(source_folder:&str)->Result<Vec<String>,Error>{
+pub fn dir_structure_to_string(source_folder:&str)->Result<Vec<String>,BrownError>{
 let mut output:Vec<String> = Vec::new();
 //===level zero =======
 if !bro::path_exists(source_folder) {
-    return Err(Error::new(ErrorKind::NotFound,"the folder does not exist"));
+    return Err(BrownError::DirNotFound);
 }
 output.push(String::from(source_folder));
 

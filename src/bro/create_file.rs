@@ -1,5 +1,5 @@
 use std::fs::{File};
-use std::io::{Error,ErrorKind};
+use crate::BrownError;
 use crate::bro;
 
 /// This function will create a file at a given path as long as the file does not exist already. In case the file aready exists it will return an error and will not over write the file. Its operation is safe.
@@ -18,16 +18,22 @@ use crate::bro;
 /// let _ = brown::remove_dir_brute("parent_folder"); 
 /// ```
 
-pub fn create_file(file_path:&str)->Result<File,Error>{
+pub fn create_file(file_path:&str)->Result<File,BrownError>{
     let path_exist = bro::path_exists(file_path);
         match path_exist {
             true=>{
-                let e = Error::new(ErrorKind::AlreadyExists,"path already exists");
-                return Err(e);
+                return Err(BrownError::PathAlreadyExists);
             } ,
             false=> {
                 let res = File::create(file_path);
-                return res; // no need to Ok() it    
+                    match res {
+                    Ok(item)=>{
+                    return Ok(item);
+                    },
+                    Err(_e)=>{
+                    return Err(BrownError::FailedFileCreation)
+                    },
+                    }
             },
         }
 }

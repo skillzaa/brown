@@ -1,5 +1,4 @@
 #[allow(dead_code)]
-use std::io::{Error,ErrorKind};
 //------------------------
 mod get_dirs_all; 
 pub use get_dirs_all::*;
@@ -54,15 +53,3 @@ pub use create_dir_structure::create_dir_structure;
 mod dir_structure_to_string;
 pub use dir_structure_to_string::dir_structure_to_string;
 //------------------------
-
-pub fn bool_to_result(input:bool,message:&str)->Result<bool,Error>{
-    match input {
-        true=>{
-            return Ok(true);
-        },
-        false=>{
-            let e = Error::new(ErrorKind::InvalidData,message);
-            return Err(e);
-        },
-    }
-}

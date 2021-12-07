@@ -1,7 +1,6 @@
 use std::fs::{DirEntry};
-use std::io::{Error,ErrorKind};
 use crate::bro;
-
+use crate::BrownError;
 /// The get_files_by_ext is just like get_files but it get files based on their extention. If no file is found with the given extention an error is returned.
 /// 
 /// Do not add "." (the dot) with file extention
@@ -9,7 +8,7 @@ use crate::bro;
 /// 
 /// Do not include the "./" before the dir_path
 
-pub fn get_files_by_ext(dir_path:&str,ext:&str)->Result<Vec<DirEntry>,Error>{
+pub fn get_files_by_ext(dir_path:&str,ext:&str)->Result<Vec<DirEntry>,BrownError>{
     let mut vec:Vec<DirEntry> = Vec::new() ;
     let files  = bro::get_files(dir_path)?;
     for file in files {
@@ -21,8 +20,7 @@ pub fn get_files_by_ext(dir_path:&str,ext:&str)->Result<Vec<DirEntry>,Error>{
             }
     }
     if vec.len() <= 0 {
-        let e = Error::new(ErrorKind::NotFound,"found no files with the given extention");
-        return Err(e);
+        return Err(BrownError::FileExtError);
     }else {
         return Ok(vec);
     }

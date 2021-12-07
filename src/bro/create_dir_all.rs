@@ -1,7 +1,6 @@
 use std::fs;
-use std::io::{Error,ErrorKind};
 use std::path::Path;
-
+use crate::BrownError;
 use crate::bro_path::BroPath;
 
 /// The create_dir_all is just like brown::create_dir except it Recursively create a directory and all of its parent components if they are missing.
@@ -23,7 +22,7 @@ use crate::bro_path::BroPath;
 /// assert!(parent_removed.is_ok());
 /// ```
 
-pub fn create_dir_all(dir_path:&str)->Result<bool,Error> {
+pub fn create_dir_all(dir_path:&str)->Result<bool,BrownError> {
     let bp = BroPath::new();
     bp.sanitize(&dir_path.to_string())?;
 
@@ -32,14 +31,13 @@ pub fn create_dir_all(dir_path:&str)->Result<bool,Error> {
     //..................................
         match path.exists() {
             true=>{
-                let e = Error::new(ErrorKind::AlreadyExists,"path already exists");
-                return Err(e);
+                return Err(BrownError::PathAlreadyExists);
             } ,
             false=> {
                 let d = fs::create_dir_all(path);
                 match d {
                     Ok(()) => return Ok(true), // just changed 
-                    Err(e) => Err(e),
+                    Err(e) => Err(BrownError::FailedDirCreation),
                 }
             },
         }

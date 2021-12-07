@@ -1,9 +1,9 @@
 use std::fs::{DirEntry};
-use std::io::{Error,ErrorKind};
 use crate::bro;
+use crate::BrownError;
 /// The get_files will get all the files from a folder leaving out the directories.
 /// It will return error if no file is found thus the user does not have to check if the returned vec has some values or not. 
-pub fn get_files(dir_path:&str)->Result<Vec<DirEntry>,Error>{
+pub fn get_files(dir_path:&str)->Result<Vec<DirEntry>,BrownError>{
     let mut vec:Vec<DirEntry> = Vec::new() ;
     let entries  = bro::get_entries(dir_path)?;
     for entry in entries {
@@ -16,8 +16,7 @@ pub fn get_files(dir_path:&str)->Result<Vec<DirEntry>,Error>{
         }
     }
     if vec.len() <= 0 {
-        let e = Error::new(ErrorKind::NotFound,"found no files in the directory");
-        return Err(e);
+        return Err(BrownError::DirEmpty);
     }else {
         return Ok(vec);
     }

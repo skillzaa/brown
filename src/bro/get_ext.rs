@@ -1,10 +1,9 @@
 use std::fs::{DirEntry};
-use std::io::{Error,ErrorKind};
-
+use crate::BrownError;
 /// The get_ext function will take a DirEntry object and return the
 /// file extention. This saves us a lot of efforts and conversion
 /// between types. 
-pub fn get_ext(entry:&DirEntry)->Result<String,Error>{
+pub fn get_ext(entry:&DirEntry)->Result<String,BrownError>{
     let path_buf = entry.path();
     let ext = path_buf.extension();
     match ext {
@@ -15,14 +14,12 @@ pub fn get_ext(entry:&DirEntry)->Result<String,Error>{
                         return Ok(ft_last);
                      },
                      None=>{
-                        let e = Error::new(ErrorKind::NotFound,"failed to get extention from file");
-                        return Err(e);   
+                        return Err(BrownError::FileExtError);   
                      },   
                     }
         },
         None=> {
-            let e = Error::new(ErrorKind::NotFound,"failed to get extention");
-            return Err(e);
+            return Err(BrownError::FileExtError);
         },
     }
 }

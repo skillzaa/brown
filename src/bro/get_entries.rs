@@ -1,5 +1,5 @@
 use std::fs::DirEntry;
-use std::io::{Error,ErrorKind};
+use crate::BrownError;
 use crate::bro;
 
 ///The get_entries fn will get all the entries from a directory may it be files , folders or others. 
@@ -8,7 +8,7 @@ use crate::bro;
 ///It returns a Vec of DirEntry when successful. The DirEntry is a Rust struct used for holding any entry in a directory. 
 ///The dir_path should not have "./" since that will be added automatically.
 
-pub fn get_entries(dir_path:&str)->Result<Vec<DirEntry>,Error>{
+pub fn get_entries(dir_path:&str)->Result<Vec<DirEntry>,BrownError>{
     
     let mut dir_entry_vec:Vec<DirEntry> = Vec::new();
     let read_dir = bro::get_read_dir(dir_path)?;
@@ -21,8 +21,7 @@ pub fn get_entries(dir_path:&str)->Result<Vec<DirEntry>,Error>{
         }
     }
     if dir_entry_vec.len() <= 0 {
-        let e = Error::new(ErrorKind::NotFound,"found no valid entries in the directory");
-        return Err(e);
+        return Err(BrownError::DirEmpty);
     }else {
         return Ok(dir_entry_vec);
     } 

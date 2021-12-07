@@ -1,7 +1,6 @@
 use std::fs;
-use std::io::{Error,ErrorKind};
 use std::path::Path;
-
+use crate::BrownError;
 use crate::bro_path::BroPath;
 /// The create_dir function will create a folder safely i.e in case the folder does not exist, it will be created But incase the folder already exists the function will return an error.
 /// 
@@ -79,7 +78,7 @@ use crate::bro_path::BroPath;
 /// let _ = brown::remove_dir_brute("folder_no_234");
 /// ```
 
-pub fn create_dir( dir_path:&str)->Result<bool,Error> {
+pub fn create_dir( dir_path:&str)->Result<bool,BrownError> {
     let bp = BroPath::new();
     bp.sanitize(&dir_path.to_string())?;
 
@@ -88,14 +87,13 @@ pub fn create_dir( dir_path:&str)->Result<bool,Error> {
     //..................................
         match path.exists() {
             true=>{
-                let e = Error::new(ErrorKind::AlreadyExists,"file already exists");
-                return Err(e);
+                return Err(BrownError::FileAlreadyExists);
             } ,
             false=> {
                 let d = fs::create_dir(path);
                 match d {
                     Ok(()) => return Ok(true), // just changed 
-                    Err(e) => Err(e),
+                    Err(e) => Err(BrownError::FailedDirCreation),
                 }
             },
         }

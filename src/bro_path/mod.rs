@@ -1,6 +1,4 @@
-use std::io::{Error};
-
-use crate::BrownErrors;
+use crate::BrownError;
 pub struct BroPath{}
 
 impl BroPath{
@@ -8,7 +6,7 @@ impl BroPath{
         BroPath{}
     }
     /// This fn takes a &Vec<String> of paths and sanitize them one by one. The returned results are just the valid paths.
-    pub fn sanitize_all(&self,paths:&Vec<String>)->Result<Vec<String>,Error>{
+    pub fn sanitize_all(&self,paths:&Vec<String>)->Result<Vec<String>,BrownError>{
   
         let mut mutated:Vec<String> = Vec::new();
         for s in paths{
@@ -20,7 +18,7 @@ impl BroPath{
         }
     Ok(mutated)    
     }
-    pub fn change_destination(&self,paths:&Vec<String>,source:&str,destination:&str)->Result<Vec<String>,Error>{
+    pub fn change_destination(&self,paths:&Vec<String>,source:&str,destination:&str)->Result<Vec<String>,BrownError>{
         let mut mutated:Vec<String> = Vec::new();
         for s in paths{
             let jj = s.replace(source, 
@@ -32,7 +30,7 @@ impl BroPath{
     pub fn add_dot_slash(&self,path:&String)->String{
     format!("./{}",&path)
     }
-    pub fn remove_dot_slash_all(&self,paths:&Vec<String>)->Result<Vec<String>,Error>{
+    pub fn remove_dot_slash_all(&self,paths:&Vec<String>)->Result<Vec<String>,BrownError>{
         let mut mutated:Vec<String> = Vec::new();
         for s in paths{
             let j = s.replace("./", "");
@@ -43,14 +41,12 @@ impl BroPath{
     /// The paths used through out this lib start with the name of the parent folder (obviously under the current working folder). There is no need to add "./" in the begining since that is done automatically.
     /// Path strings are allowed to have alphanumeric characters and only these symbols ("-" , "_" , "~" and "/" ). NO BACKSLASH ALLOWED
     /// The path should also not contain a "." 
-    pub fn sanitize(&self,input:&String)->Result<bool,BrownErrors>{
+    pub fn sanitize(&self,input:&String)->Result<bool,BrownError>{
         
     let begin_with_alphabet =  qndr::begin_with_alphabet(input);
             match  begin_with_alphabet {
             false=>{
-                // let e = Error::new(ErrorKind::InvalidInput,"path must begin with alphabet, remove ./ if any");
-                // return Err(e);
-                return Err(BrownErrors::PathBeginWithAlphabet);
+                return Err(BrownError::PathBeginWithAlphabet);
             },
             _=>{},
             }
@@ -59,13 +55,11 @@ impl BroPath{
     
     match  alphanumeric_with_symbols {
         false=>{
-            // let e = Error::new(ErrorKind::InvalidInput,"you can only use url safe symbols (-,_,~,/)");
-            return Err(BrownErrors::NonUrlSafeSymbolFound);
+            return Err(BrownError::NonUrlSafeSymbolFound);
         },
         _=>{},
         }
     Ok(true)
-    // if answer_one && answer_two {true}else {false}
     }
 }
 

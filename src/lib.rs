@@ -4,8 +4,8 @@
 //----- public Interface
 mod bro;
 pub use bro::*;
-mod brown_errors;
-pub use brown_errors::BrownErrors;
+mod brown_error;
+pub use brown_error::BrownError;
 
 //----- private 
 mod helper;
