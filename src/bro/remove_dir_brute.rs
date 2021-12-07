@@ -9,7 +9,7 @@ use std::path::Path;
 /// let outcome = brown::remove_dir_brute("base_folder");
 ///  assert!(outcome.is_ok());
 /// ``` 
-pub fn remove_dir_brute( dir_name:&str)->Result<bool,Error> {
+pub fn remove_dir_brute(dir_name:&str)->Result<bool,Error> {
     let complete = String::from("./") + &dir_name;
     let path = Path::new(&complete);
         match fs::remove_dir_all(path) {

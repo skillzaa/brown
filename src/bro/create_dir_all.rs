@@ -23,9 +23,6 @@ use crate::bro_path::BroPath;
 /// assert!(parent_removed.is_ok());
 /// ```
 
- 
-
-
 pub fn create_dir_all(dir_path:&str)->Result<bool,Error> {
     let bp = BroPath::new();
     bp.sanitize(&dir_path.to_string())?;

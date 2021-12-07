@@ -1,7 +1,6 @@
 use std::fs::DirEntry;
 use crate::bro;
 use std::io::Error;
-//=====================GET LEVEL ==============
 /// This fn takes a Vec of DirEntries and will return all the sub-directories of all the provided DirEntries.
 /// It is used to get sub-folder of a directory at any given level by providing all the parent folders.
 /// This function is helpful for traversing a directory structure.
@@ -13,11 +12,10 @@ for i in incomming {
         match res {
             Ok(path)=>{
                 let sub_dirs = 
-                bro::get_dirs(&path);
+                    bro::get_dirs(&path);
                 match sub_dirs {
                     Ok(sdirs)=>{
                         for sd in sdirs {
-                            // println!("sd{:?}",sd);
                             output.push(sd);
                         }
                     },

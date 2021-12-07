@@ -26,7 +26,6 @@ pub fn remove_file(file_path:&str)->Result<bool,Error>{
 
 
 mod tests {
-    use super::*;
     use super::super::*;
 #[test]
 fn basic(){
