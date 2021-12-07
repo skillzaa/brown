@@ -27,15 +27,15 @@ use crate::bro_path::BroPath;
 /// # Example (If folder Already exists)
 /// ```rust
 /// // To ensure that previously created folder is removed
-/// let _ = brown::remove_dir_brute("random_folder");
+/// let _ = brown::remove_dir_brute("rand_folder");
 /// // first time creation
-/// let p_dir = brown::create_dir("random_folder");
+/// let p_dir = brown::create_dir("rand_folder");
 ///  assert!(p_dir.is_ok());
 /// // Second time creation
-/// let p_dir_again = brown::create_dir("random_folder");
+/// let p_dir_again = brown::create_dir("rand_folder");
 ///  assert!(p_dir_again.is_err());
 /// // clean up
-/// let clean = brown::remove_dir_brute("random_folder");
+/// let clean = brown::remove_dir_brute("rand_folder");
 /// assert!(clean.is_ok());
 /// ``` 
 /// # Example (No dot allowed in path)
@@ -66,18 +66,17 @@ use crate::bro_path::BroPath;
 /// ```
 /// # Example (Creating sub-folders)
 /// ```rust
-/// let _ = brown::remove_dir_brute("parent");
+/// let _ = brown::remove_dir_brute("folder_no_234");
 /// let parent_created = 
-/// brown::create_dir("parent");
+/// brown::create_dir("folder_no_234");
 /// assert!(parent_created.is_ok());
 /// let sub01_created = 
-/// brown::create_dir("parent/sub01");
-/// assert!(sub01_created.is_ok());
+/// brown::create_dir("folder_no_234/sub01");
 /// let sub02_created = 
-/// brown::create_dir("parent/sub02");
+/// brown::create_dir("folder_no_234/sub02");
 /// assert!(sub02_created.is_ok());
 /// // clean up
-/// let _ = brown::remove_dir_brute("parent");
+/// let _ = brown::remove_dir_brute("folder_no_234");
 /// ```
 
 pub fn create_dir( dir_path:&str)->Result<bool,Error> {
@@ -108,11 +107,11 @@ use super::*;
 use super::super::*;
 #[test]
 fn basic(){
-    let _ = remove_dir_brute("parent");
+    let _ = remove_dir_brute("create_dir_folder");
     
-    let parent_created = create_dir("parent");
+    let parent_created = create_dir("create_dir_folder");
     assert!(parent_created.is_ok());
-    let parent_removed = remove_dir_brute("parent");
+    let parent_removed = remove_dir_brute("create_dir_folder");
     assert!(parent_removed.is_ok());
 }
 #[test]

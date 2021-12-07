@@ -50,7 +50,9 @@ mod tests {
 use super::*;
 use super::super::*;
 #[test]    
-    fn two(){  
+    fn create_n_del_three_sub_folders(){ 
+        let _ = remove_dir_brute("parent");
+        
         let parent_created = 
         create_dir_all("parent/sub_folder/sub_sub_folder/sub_sub_sub_folder");
         
