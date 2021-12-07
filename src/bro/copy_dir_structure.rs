@@ -1,10 +1,10 @@
 // #[allow(dead_code)]
-use std::io::{Error};
 use crate::BroPath;
 use crate::bro;
+use crate::BrownError;
 
 pub fn copy_dir_structure<'a>(source:&str,destination:&str)
-->Result<Vec<String>,Error>{
+->Result<Vec<String>,BrownError>{
 //============= Step One    
 let source_str = bro:: 
 dir_structure_to_string(source)?;

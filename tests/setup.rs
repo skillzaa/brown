@@ -1,10 +1,10 @@
-use std::io::Error;
 use brown;
+use brown::BrownError;
 pub static PARENTFOLDER: &str = "tests/delme/";
 
 /// Create 3 files  and 3 dirs 
 
-pub fn build_up()->Result<bool,Error>{
+pub fn build_up()->Result<bool,BrownError>{
   // parent folder
   let _aa = brown::create_dir(PARENTFOLDER)?;
 
@@ -21,7 +21,7 @@ brown::create_dir(format!("{}{}",PARENTFOLDER,"/dirC").as_str())?;
 Ok(true)
 
 }
-pub fn build_up_dirs()->Result<bool,Error>{
+pub fn build_up_dirs()->Result<bool,BrownError>{
   // delete old
   let _= brown::remove_dir_brute(PARENTFOLDER);
   // parent folder
@@ -42,17 +42,17 @@ brown::create_dir(format!("{}{}",PARENTFOLDER,"/c/c2/c22").as_str())?;
 Ok(true)
 
 }
-pub fn tear_down()->Result<bool,Error>{
+pub fn tear_down()->Result<bool,BrownError>{
 // return type is same 
 brown::remove_dir_brute(PARENTFOLDER)
 }
-pub fn remove_files()->Result<bool,Error>{
+pub fn remove_files()->Result<bool,BrownError>{
 brown::remove_file("tests/delme/fileA")?;
 brown::remove_file("tests/delme/fileB")?;
 brown::remove_file("tests/delme/fileC")?;
 Ok(true)
 }
-pub fn remove_dirs()->Result<bool,Error>{
+pub fn remove_dirs()->Result<bool,BrownError>{
 // create the mother folder
 brown::remove_dir("tests/delme/dirA")?;
 brown::remove_dir("tests/delme/dirB")?;

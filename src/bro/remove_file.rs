@@ -1,7 +1,6 @@
 use std::fs;
-use std::io::{Error};
 use std::path::Path;
-
+use crate::BrownError;
 /// The remove_file method will delete the file on the
 /// given path.
 /// It is a wrapper around fs::remove_file
@@ -15,12 +14,12 @@ use std::path::Path;
 /// assert!(deleted.is_ok());   
 /// ```
 
-pub fn remove_file(file_path:&str)->Result<bool,Error>{
+pub fn remove_file(file_path:&str)->Result<bool,BrownError>{
     let path = Path::new(file_path);
         let result  = fs::remove_file(&path);
         match result {
             Ok(()) => return Ok(true),
-            Err(e) => return Err(e),
+            Err(_e) => return Err(BrownError::FailedFileDeletion),
         }        
 }
 

@@ -1,10 +1,10 @@
 use std::fs::DirEntry;
 use crate::bro;
-use std::io::Error;
+use crate::BrownError;
 /// This fn takes a Vec of DirEntries and will return all the sub-directories of all the provided DirEntries.
 /// It is used to get sub-folder of a directory at any given level by providing all the parent folders.
 /// This function is helpful for traversing a directory structure.
-pub fn get_dirs_all(incomming:&Vec<DirEntry>)->Result<Vec<DirEntry>,Error>{
+pub fn get_dirs_all(incomming:&Vec<DirEntry>)->Result<Vec<DirEntry>,BrownError>{
 let mut output:Vec<DirEntry> = Vec::new();    
 for i in incomming {
     let res = 

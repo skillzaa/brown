@@ -1,10 +1,10 @@
-use std::io::{Error};
 use std::fs::DirEntry;
+use crate::BrownError;
 use super::*;
 /// This fn will take a Rust a Vec of &DirEntry type and return all of its paths as string.
 /// If we set its "strict" flag to false then it will ignore the errors and return as many paths as it can.
 /// Incase the "strict" flag is set to true then in will return error even if a single DirEntry fails to return path.
-pub fn direntry_to_path_all(direntries:&Vec<DirEntry>,strict:bool)->Result<Vec<String>,Error>{
+pub fn direntry_to_path_all(direntries:&Vec<DirEntry>,strict:bool)->Result<Vec<String>,BrownError>{
     let mut outcome:Vec<String> = Vec::new();
     for d in direntries {
         let p = 

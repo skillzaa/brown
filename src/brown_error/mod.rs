@@ -24,4 +24,8 @@ pub enum BrownError {
     FailedFileCreation,
     #[error("failed to create a directory,Rust fs::create_dir failed")]
     FailedDirCreation,
+    #[error("failed to delete directory,Rust fs::remove_dir_all failed")]
+    FailedDirDeletion,
+    #[error("failed to delete file,Rust fs::remove_file failed")]
+    FailedFileDeletion,
 }

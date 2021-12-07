@@ -1,8 +1,8 @@
-use std::io::Error;
 use super::bro;
+use crate::BrownError;
 pub static PARENTFOLDER: &str = "delme/";
 
-pub fn setup_mixed()->Result<bool,Error>{
+pub fn setup_mixed()->Result<bool,BrownError>{
   // parent folder
   let _aa = bro::create_dir(PARENTFOLDER)?;
 
@@ -19,7 +19,7 @@ bro::create_dir(format!("{}{}",PARENTFOLDER,"/dirC").as_str())?;
 Ok(true)
 
 }
-pub fn setup_dirs()->Result<bool,Error>{
+pub fn setup_dirs()->Result<bool,BrownError>{
   // delete old
   let _= bro::remove_dir_brute(PARENTFOLDER);
   // parent folder
@@ -67,7 +67,7 @@ PARENTFOLDER,"lvl1_c/lvl2_c1/lvl3_c11").as_str())?;
 Ok(true)
 
 }
-pub fn tear_down()->Result<bool,Error>{
+pub fn tear_down()->Result<bool,BrownError>{
 // return type is same 
 bro::remove_dir_brute(PARENTFOLDER)
 }
