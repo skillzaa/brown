@@ -1,5 +1,6 @@
-use std::io::{Error,ErrorKind};
+use std::io::{Error};
 
+use crate::BrownErrors;
 pub struct BroPath{}
 
 impl BroPath{
@@ -42,13 +43,14 @@ impl BroPath{
     /// The paths used through out this lib start with the name of the parent folder (obviously under the current working folder). There is no need to add "./" in the begining since that is done automatically.
     /// Path strings are allowed to have alphanumeric characters and only these symbols ("-" , "_" , "~" and "/" ). NO BACKSLASH ALLOWED
     /// The path should also not contain a "." 
-    pub fn sanitize(&self,input:&String)->Result<bool,Error>{
+    pub fn sanitize(&self,input:&String)->Result<bool,BrownErrors>{
         
     let begin_with_alphabet =  qndr::begin_with_alphabet(input);
             match  begin_with_alphabet {
             false=>{
-                let e = Error::new(ErrorKind::InvalidInput,"path must begin with alphabet, remove ./ if any");
-                return Err(e);
+                // let e = Error::new(ErrorKind::InvalidInput,"path must begin with alphabet, remove ./ if any");
+                // return Err(e);
+                return Err(BrownErrors::PathBeginWithAlphabet);
             },
             _=>{},
             }
@@ -57,8 +59,8 @@ impl BroPath{
     
     match  alphanumeric_with_symbols {
         false=>{
-            let e = Error::new(ErrorKind::InvalidInput,"you can only use url safe symbols (-,_,~,/)");
-            return Err(e);
+            // let e = Error::new(ErrorKind::InvalidInput,"you can only use url safe symbols (-,_,~,/)");
+            return Err(BrownErrors::NonUrlSafeSymbolFound);
         },
         _=>{},
         }
