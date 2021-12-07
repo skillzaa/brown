@@ -4,7 +4,7 @@ use brown as bro;
 #[test]
 fn loop_test(){
 let _ = setup::build_up_dirs();
-let output = bro::copy_dir_structure
+let output = bro::clone_dir_structure
 (setup::PARENTFOLDER,"tests/abc/").unwrap();
 // let _ = setup::tear_down();
 println!("{:#?}",output);

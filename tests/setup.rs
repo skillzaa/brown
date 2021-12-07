@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 use brown;
 use brown::BrownError;
 pub static PARENTFOLDER: &str = "tests/delme/";
@@ -21,6 +22,7 @@ brown::create_dir(format!("{}{}",PARENTFOLDER,"/dirC").as_str())?;
 Ok(true)
 
 }
+
 pub fn build_up_dirs()->Result<bool,BrownError>{
   // delete old
   let _= brown::remove_dir_brute(PARENTFOLDER);
@@ -47,16 +49,21 @@ pub fn tear_down()->Result<bool,BrownError>{
 brown::remove_dir_brute(PARENTFOLDER)
 }
 pub fn remove_files()->Result<bool,BrownError>{
-brown::remove_file("tests/delme/fileA")?;
-brown::remove_file("tests/delme/fileB")?;
-brown::remove_file("tests/delme/fileC")?;
+
+brown::remove_file(format!("{}{}",PARENTFOLDER,"/fileA").as_str())?;
+brown::remove_file(format!("{}{}",PARENTFOLDER,"/fileB").as_str())?;
+brown::remove_file(format!("{}{}",PARENTFOLDER,"/fileC").as_str())?;
 Ok(true)
 }
 pub fn remove_dirs()->Result<bool,BrownError>{
 // create the mother folder
-brown::remove_dir("tests/delme/dirA")?;
-brown::remove_dir("tests/delme/dirB")?;
-brown::remove_dir("tests/delme/dirC")?;
+brown::remove_dir
+(format!("{}{}",PARENTFOLDER,"/dirA").as_str())?;
+brown::remove_dir
+(format!("{}{}",PARENTFOLDER,"/dirB").as_str())?;
+brown::remove_dir
+(format!("{}{}",PARENTFOLDER,"/dirC").as_str())?;
+
 Ok(true)
 
 }

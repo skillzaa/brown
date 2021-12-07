@@ -44,8 +44,8 @@ mod is_file;
 pub use is_file::is_file;
 //------------------------
 
-mod copy_dir_structure;
-pub use copy_dir_structure::copy_dir_structure;
+mod clone_dir_structure;
+pub use clone_dir_structure::clone_dir_structure;
 
 mod create_dir_structure;
 pub use create_dir_structure::create_dir_structure;
