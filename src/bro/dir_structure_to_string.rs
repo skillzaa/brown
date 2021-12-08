@@ -12,6 +12,7 @@ let mut output:Vec<String> = Vec::new();
 if !bro::path_exists(source_folder) {
     return Err(BrownError::DirNotFound);
 }
+// first entry into output
 output.push(String::from(source_folder));
 
 //======lvl 1 =========
@@ -19,24 +20,29 @@ let level_one_de =
 bro::get_dirs(source_folder)?;
 
 let mut level_one_str = 
-bro::direntry_to_path_all(&level_one_de, true)
+bro::direntry_to_path_all(&level_one_de, false)
 ?;
+// level one appended to output
 output.append(&mut level_one_str);
 //=============================  
 // This is from level 2 onwards (lvl 0 and 1 done)  
 //=============================    
+    //--here seed holds level one dirEntries
     let mut seed = level_one_de;
 loop {
-    // get_dirs_all removes the need for a loop here since 
+    // get_dirs_all removes the need for a loop here since --All the sub dirs of all the given DirEntries are returned
     let sub_dirs = 
     bro::get_dirs_all(&seed)?;   
     if sub_dirs.len() < 1 {break;}
 
+//============== loop middle part ===========    
     let mut paths = 
     bro::direntry_to_path_all(&sub_dirs, true)
     ?;
-
     output.append(&mut paths);
+    //============== middle part ends ===========
+
+    //--here seed holds next level dirEntries
     seed = sub_dirs;
 }
    Ok(output) 
@@ -44,12 +50,11 @@ loop {
 
 mod tests {
 use crate::test_helper::TestHelper;
-
 use super::*;    
 use super::super::*;
 
 #[test]
-fn basic(){
+fn basic_test_using_test_helper(){
     let th = TestHelper::new("fol");
     th.setup_dirs();
     let dir_str = 
@@ -76,5 +81,33 @@ fn basic(){
     assert_eq!(dir_str,outcome);
     th.tear_down();
 }
+#[test]
+fn manual_test(){
+    let th = TestHelper::
+    new("dir97");
+    
+    th.create_parent_dir();
+    let _ = th.create_dir("a");
+    let _ = th.create_dir("a/a1");
+    let _ = th.create_dir("b");
+    let _ = th.create_dir("b/b1");
+    
+    let outcome = 
+    dir_structure_to_string(th.parent_folder_name)
+    .unwrap();
 
+    // let outcome_str = 
+    // vec_string_to_str(&outcome);
+    // println!("{:#?}",outcome);
+    let compare = [
+        "dir97",
+        "./dir97/b",
+        "./dir97/a",
+        "././dir97/b/b1",
+        "././dir97/a/a1",
+    ];
+    // in assert eq which ever you write first matter write the outcome first or it will raise errors about &str and String comaprison.
+    assert_eq!(outcome,compare);
+    th.tear_down();
+}
 }

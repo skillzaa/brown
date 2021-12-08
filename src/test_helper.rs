@@ -24,12 +24,15 @@ impl TestHelper {
       Ok(true)
       
     }
-    pub fn setup_dirs(&self)->Result<bool,BrownError>{
+    pub fn create_parent_dir(&self)->Result<bool,BrownError>{
         // delete old
         let _= bro::remove_dir_brute(self.parent_folder_name);
         // parent folder
         let _aa = bro::create_dir(self.parent_folder_name)?;
-      
+    Ok(true)
+    }
+    pub fn setup_dirs(&self)->Result<bool,BrownError>{
+      let _ = self.create_parent_dir();
       // level one - 1
       bro::create_dir(format!("{}/{}",
       self.parent_folder_name,"a").as_str())?;
@@ -72,6 +75,10 @@ impl TestHelper {
     pub fn tear_down(&self)->Result<bool,BrownError>{
       // return type is same 
       bro::remove_dir_brute(self.parent_folder_name)
+    }
+    pub fn create_dir(&self,dir_name:&str)->bool{
+      let r = bro::create_dir(format!("{}/{}",self.parent_folder_name,dir_name).as_str()).unwrap();
+      r
     }
       
 }
