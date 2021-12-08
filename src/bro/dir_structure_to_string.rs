@@ -41,4 +41,40 @@ loop {
 }
    Ok(output) 
 }
-    
+
+mod tests {
+use crate::test_helper::TestHelper;
+
+use super::*;    
+use super::super::*;
+
+#[test]
+fn basic(){
+    let th = TestHelper::new("fol");
+    th.setup_dirs();
+    let dir_str = 
+    dir_structure_to_string(th.parent_folder_name)
+    .unwrap();
+    let outcome = [
+        "fol",
+        "./fol/b",
+        "./fol/a",
+        "./fol/c",
+        "././fol/b/b2",
+        "././fol/b/b3",
+        "././fol/b/b1",
+        "././fol/a/a2",
+        "././fol/a/a1",
+        "././fol/a/a3",
+        "././fol/c/c1",
+        "././fol/c/c2",
+        "././fol/c/c3",
+        "./././fol/b/b1/b11",
+        "./././fol/a/a1/a11",
+        "./././fol/c/c1/c11",
+    ];
+    assert_eq!(dir_str,outcome);
+    th.tear_down();
+}
+
+}

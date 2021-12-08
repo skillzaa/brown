@@ -37,7 +37,7 @@ pub fn create_dir_all(dir_path:&str)->Result<bool,BrownError> {
                 let d = fs::create_dir_all(path);
                 match d {
                     Ok(()) => return Ok(true), // just changed 
-                    Err(e) => Err(BrownError::FailedDirCreation),
+                    Err(_e) => Err(BrownError::FailedDirCreation),
                 }
             },
         }

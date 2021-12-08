@@ -1,9 +1,11 @@
 mod setup;
 use brown as bro;
+
 #[cfg(test)]
 #[test]
 fn loop_test(){
 let _ = setup::build_up_dirs();
+// let j = bro::
 let output = bro::clone_dir_structure
 (setup::PARENTFOLDER,"tests/abc/").unwrap();
 // let _ = setup::tear_down();
