@@ -84,7 +84,7 @@ fn basic_test_using_test_helper(){
 #[test]
 fn manual_test(){
     let th = TestHelper::
-    new("dir97");
+    new("dir974");
     
     th.create_parent_dir();
     let _ = th.create_dir("a");
@@ -100,11 +100,11 @@ fn manual_test(){
     // vec_string_to_str(&outcome);
     // println!("{:#?}",outcome);
     let compare = [
-        "dir97",
-        "./dir97/b",
-        "./dir97/a",
-        "././dir97/b/b1",
-        "././dir97/a/a1",
+        "dir974",
+        "./dir974/b",
+        "./dir974/a",
+        "././dir974/b/b1",
+        "././dir974/a/a1",
     ];
     // in assert eq which ever you write first matter write the outcome first or it will raise errors about &str and String comaprison.
     assert_eq!(outcome,compare);

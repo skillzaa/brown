@@ -25,7 +25,10 @@ fn create_structure(path_list:&Vec<String>)->Result<bool,BrownError>{
 for folder in path_list {
     let result = std::fs::create_dir_all(folder);
     match result {
-        Ok(_f)=>{println!("folder created :: {}",folder)},
+        Ok(_f)=>{
+            // a lib should not print ???
+            //println!("folder created :: {}",folder)
+        },
         Err(_e)=>{
             // println!("failed to create folder :: {} , the folder may already exist",folder);
             continue;
