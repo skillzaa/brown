@@ -67,6 +67,7 @@ clone_dir_structure("dir963","dir97")
       ];
       // in assert eq which ever you write first matter write the outcome first or it will raise errors about &str and String comaprison.
       assert_eq!(final_outcome,compare);
+      bro::remove_dir_brute("dir97");
       th.tear_down();
 }
 }

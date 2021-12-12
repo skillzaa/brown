@@ -1,8 +1,8 @@
 use std::fs;
 use std::path::Path;
 use crate::BrownError;
-/// The remove_dir funtion will remove a directory only of its empty.
-/// Its operation is safe. This fn should be used normally unless brute removal is required 
+/// The remove_dir funtion will remove a directory only if its empty.
+/// Its operation is safe. This fn should be used always unless brute removal is required 
 /// Example :: 
 /// ```rust
 /// // Ensure there is no old folder
