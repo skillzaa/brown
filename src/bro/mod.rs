@@ -16,6 +16,8 @@ mod create_file;
 pub use create_file::create_file;
 mod create_dir;
 pub use create_dir::create_dir;
+mod create_dir_brute;
+pub use create_dir_brute::create_dir_brute;
 mod create_dir_all;
 pub use create_dir_all::create_dir_all;
 mod get_read_dir;

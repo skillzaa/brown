@@ -1,13 +1,12 @@
 use std::fs;
 use crate::BrownError;
 use std::path::Path;
-use crate::bro_path::BroPath;
-
+use crate::util;
 /// This function will create a file if it does not exist, and 
 /// will entirely replace its contents if it does.
 pub fn write_to_file(path:&str,content:&String)->Result<bool,BrownError>{
     
-    sanitize(&path.to_string())?;
+    util::sanitize_file_path(&path.to_string())?;
 
     let complete = String::from("./") + &path;
     let path2 = Path::new(&complete);
@@ -19,25 +18,6 @@ pub fn write_to_file(path:&str,content:&String)->Result<bool,BrownError>{
         }
 }
 
-fn sanitize(input:&String)->Result<bool,BrownError>{
-let begin_with_alphabet =  qndr::begin_with_alphabet(input);
-        match  begin_with_alphabet {
-        false=>{
-            return Err(BrownError::PathBeginWithAlphabet);
-        },
-        _=>{},
-        }
-let alphanumeric_with_symbols  = 
-qndr::alphanumeric_with_symbols(input, "_-~/.");
-
-match  alphanumeric_with_symbols {
-    false=>{
-        return Err(BrownError::NonUrlSafeSymbolFound);
-    },
-    _=>{},
-    }
-Ok(true)
-}
 mod tests {
 use super::super::*;
 use crate::BrownError;

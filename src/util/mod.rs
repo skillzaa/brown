@@ -1,5 +1,42 @@
 use crate::BrownError;
+pub fn sanitize_file_path(input:&String)->Result<bool,BrownError>{
+    let begin_with_alphabet =  qndr::begin_with_alphabet(input);
+            match  begin_with_alphabet {
+            false=>{
+                return Err(BrownError::PathBeginWithAlphabet);
+            },
+            _=>{},
+            }
+    let alphanumeric_with_symbols  = 
+    qndr::alphanumeric_with_symbols(input, "_-~/.");
+    
+    match  alphanumeric_with_symbols {
+        false=>{
+            return Err(BrownError::NonUrlSafeSymbolFound);
+        },
+        _=>{},
+        }
+    Ok(true)
+}
+pub fn sanitize_dir_path(input:&String)->Result<bool,BrownError>{
+let begin_with_alphabet =  qndr::begin_with_alphabet(input);
+        match  begin_with_alphabet {
+        false=>{
+            return Err(BrownError::PathBeginWithAlphabet);
+        },
+        _=>{},
+        }
+let alphanumeric_with_symbols  = 
+qndr::alphanumeric_with_symbols(input, "_-~/");
 
+match  alphanumeric_with_symbols {
+    false=>{
+        return Err(BrownError::NonUrlSafeSymbolFound);
+    },
+    _=>{},
+    }
+Ok(true)
+}
 pub fn vec_string_to_str(string_vec:&Vec<String>)
 ->Vec<&str>{
 let mutated_str:Vec<&str>  = 

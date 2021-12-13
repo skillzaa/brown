@@ -1,6 +1,8 @@
 use std::fs;
 use std::path::Path;
 use crate::BrownError;
+use crate::util;
+
 /// The remove_file method will delete the file on the
 /// given path.
 /// It is a wrapper around fs::remove_file
@@ -15,17 +17,21 @@ use crate::BrownError;
 /// ```
 
 pub fn remove_file(file_path:&str)->Result<bool,BrownError>{
-    let path = Path::new(file_path);
-        let result  = fs::remove_file(&path);
-        match result {
-            Ok(()) => return Ok(true),
-            Err(_e) => return Err(BrownError::FailedFileDeletion),
-        }        
+    util::sanitize_file_path(&file_path.to_string())?;
+    
+let path = Path::new(file_path);
+let result  = fs::remove_file(&path);
+    match result {
+        Ok(()) => return Ok(true),
+        Err(_e) => return Err(BrownError::FailedFileDeletion),
+    }        
 }
 
 
 mod tests {
     use super::super::*;
+    use crate::BrownError;
+
 #[test]
 fn basic(){
  let created = create_file_brute("some_file.md");
@@ -36,17 +42,34 @@ fn basic(){
 #[test]
 fn second(){
  let folders = 
- create_dir_all("somefolder/sub"); 
+ create_dir_all("rand_dir_77/sub"); 
  assert!(folders.is_ok());
  let created = 
- create_file_brute("somefolder/sub/file.md");
+ create_file_brute("rand_dir_77/sub/file.md");
  assert!(created.is_ok());
  let deleted = 
- remove_file("somefolder/sub/file.md");
+ remove_file("rand_dir_77/sub/file.md");
  assert!(deleted.is_ok()); 
  let cleanup = 
- remove_dir_brute("somefolder");  
+ remove_dir_brute("rand_dir_77");  
  assert!(cleanup.is_ok()); 
 
-}    
+}
+#[test]
+fn url_non_safe_chars_used(){
+    let pth = "ab?c.md";
+    let r = remove_file(pth);
+    let rr = r.unwrap_err();
+    assert_eq!(rr,BrownError::NonUrlSafeSymbolFound);
+}
+#[test]
+fn err_begin_with_alphanumeric(){
+    let pth = "./abc.md";
+    let r = 
+    remove_file(pth);
+    let rr = r.unwrap_err();
+    assert_eq!(rr,BrownError::PathBeginWithAlphabet);
+}
+
+
 }

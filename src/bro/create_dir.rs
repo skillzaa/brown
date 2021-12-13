@@ -1,13 +1,13 @@
 use std::fs;
 use std::path::Path;
 use crate::BrownError;
-use crate::bro_path::BroPath;
+use crate::util;
+
+// use crate::bro_path::BroPath;
 /// The create_dir function will create a folder safely i.e in case the folder does not exist, it will be created But incase the folder already exists the function will return an error.
 /// 
-/// If you do not care that the folder already exists or not and you want to create a fersh folder every time you run your code, you should delete any older folder using **remove_dir_brute** first and then run **create_dir** to remove any fear of error being returned.
-/// 
-/// There is no create_dir_brute in this library so using **remove_dir_brute** and then creating  dir using **create_dir** is the only very explicit way.
-/// 
+/// If you do not care that the folder already exists or not and you want to create a fersh folder every time you run your code, you should delete any older folder using **remove_dir_brute** first and then run **create_dir** to remove any fear of error being returned OR you can use create_dir_brute.
+
 /// Do not use **./** in the dir_path argument, just give the fully qualified path.
 /// 
 /// This function is a simple wrapper around Rust fs::create_dir function to integrate the rust function well with brown library. Also [check](https://doc.rust-lang.org/std/fs/fn.create_dir.html) 
@@ -79,9 +79,8 @@ use crate::bro_path::BroPath;
 /// ```
 
 pub fn create_dir( dir_path:&str)->Result<bool,BrownError> {
-    let bp = BroPath::new();
-    bp.sanitize(&dir_path.to_string())?;
-
+   
+util::sanitize_dir_path(&dir_path.to_string())?;
     let complete = String::from("./") + &dir_path;
     let path = Path::new(&complete);
     //..................................
