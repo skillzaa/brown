@@ -46,7 +46,7 @@ fn manual_test(){
       let th = TestHelper::
       new("dir963");
       
-      th.create_parent_dir();
+      let _ = th.create_parent_dir();
       let _ = th.create_dir("a");
       let _ = th.create_dir("a/a1");
       let _ = th.create_dir("b");
@@ -55,7 +55,7 @@ fn manual_test(){
 let final_outcome  = 
 clone_dir_structure("dir963","dir97")
 .unwrap();
-  println!("{:?}",final_outcome);    
+//  println!("{:?}",final_outcome);    
       
       // println!("{:#?}",outcome);
       let compare = [
@@ -67,7 +67,7 @@ clone_dir_structure("dir963","dir97")
       ];
       // in assert eq which ever you write first matter write the outcome first or it will raise errors about &str and String comaprison.
       assert_eq!(final_outcome,compare);
-      bro::remove_dir_brute("dir97");
-      th.tear_down();
+      let _ =bro::remove_dir_brute("dir97");
+      let _ = th.tear_down();
 }
 }

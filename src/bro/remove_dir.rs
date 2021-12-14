@@ -14,8 +14,7 @@ use crate::util;
 ///  assert!(outcome.is_ok());
 /// ``` 
 pub fn remove_dir(dir_name:&str)->Result<bool,BrownError> {
-util::sanitize_dir_path(&dir_name.to_string())?;
-  
+util::sanitize_dir_path(&dir_name.to_string())?;  
     let complete = String::from("./") + &dir_name;
     let path = Path::new(&complete);
         match fs::remove_dir(path) {
@@ -35,9 +34,9 @@ mod tests {
 
 #[test]
 fn basic(){
- let created = create_file_brute("some_file.md");
+ let created = create_dir_brute("d54");
  assert!(created.is_ok());
- let deleted = remove_file("some_file.md");
+ let deleted = remove_dir("d54");
  assert!(deleted.is_ok());   
 }    
 #[test]
@@ -46,10 +45,10 @@ fn second(){
  create_dir_all("somefolder/sub"); 
  assert!(folders.is_ok());
  let created = 
- create_file_brute("somefolder/sub/file.md");
+ create_dir_brute("somefolder/sub");
  assert!(created.is_ok());
  let deleted = 
- remove_file("somefolder/sub/file.md");
+ remove_dir("somefolder/sub");
  assert!(deleted.is_ok()); 
  let cleanup = 
  remove_dir_brute("somefolder");  
